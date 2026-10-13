@@ -18,7 +18,7 @@ Instruction entry point for this factory. Standing project rules: [CLAUDE.md](CL
 
 - Pickup: **enabled**
 - Dispatcher job: `34560376` (created 2026-10-13, expires 2026-10-20), owned by session `my-software-factory-c8`
-- Active assignment: controller `my-software-factory-c8` (job `34560376`), task `T-003`, review round 6 CLEAN on file state `9ec8cf9d4070d83f` (reviewer `a6197517adde5c221`; record `reviews/T-003.md`); phase: final live re-check on the current build — waiting for checker delivery of synthetic `R-0012` (one-off 17:31); then remove it, confirm the file state is still `9ec8cf9d4070d83f` apart from this pointer line, and complete. Dispatcher ticks launch nothing meanwhile.
+- Active assignment: none
 
 `Active assignment` is a recovery pointer only (controller session, task id, worker handle, phase) — never a second queue.
 
