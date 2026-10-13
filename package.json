@@ -1,0 +1,29 @@
+{
+  "name": "my-software-factory-reminders",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Personal reminders: Next.js browser app, chat CLI and reminder checker sharing one SQLite database.",
+  "type": "module",
+  "engines": {
+    "node": ">=24.0.0"
+  },
+  "scripts": {
+    "dev": "next dev -p 3210 -H 127.0.0.1",
+    "build": "next build",
+    "start": "next start -p 3210 -H 127.0.0.1",
+    "test": "node --test tests/unit/*.test.mjs",
+    "test:e2e": "node tests/e2e/run.mjs"
+  },
+  "dependencies": {
+    "next": "^16.4.0",
+    "react": "^19.3.0",
+    "react-dom": "^19.3.0"
+  },
+  "devDependencies": {
+    "@types/node": "^26.6.5",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "playwright-core": "^1.64.0",
+    "typescript": "^7.0.2"
+  }
+}

@@ -1,0 +1,19 @@
+# dependencies and build output
+node_modules/
+.next/
+next-env.d.ts
+*.tsbuildinfo
+
+# the live reminder database and its SQLite side files (user data, never committed)
+data/*.db
+data/*.db-journal
+data/*.db-wal
+data/*.db-shm
+
+# database backups written by "reminders.sh backup" (the Markdown-era backup folder is kept in git)
+backups/reminders-backup-*.db
+
+# app runtime files and test output
+.app/
+tests/e2e/output/
+.todo.lock/

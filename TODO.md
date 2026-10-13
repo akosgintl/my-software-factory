@@ -10,6 +10,75 @@ Entry format — the indented block is the complete worker brief and travels wit
 
 ## Queue
 
+- [ ] T-003: Build the Reminders Web App
+    Project path: C:\_Work\my-software-factory
+
+    Convert my chat reminders service into a Next.js web app with one writable SQLite database. Preserve chat operations and the existing native factory reminder checker. Make the app reachable in my browser and return the candidate to the controller for review and completion.
+
+    ## Project and Worker Responsibilities
+
+    Require a working chat service and native reminder checker, saved stack/design instructions, project-local Impeccable and a fresh review/repair gate. Read AGENTS.md (or CLAUDE.md for Claude), FACTORY.md, REVIEW.md, reminders-brief.md, reminders-guide.md and installed skill on the project's execution host. Use the selected instruction file consistently. Report missing prerequisites to the controller. Load the assigned queue and completion rules from FACTORY.md; read TODO.md only while it is active.
+
+    You are the fresh implementation worker assigned this complete saved brief. Implement it and return to the controller; never enqueue it again or create another dispatcher/checker. Factory and reminder-agent scheduling must use the harness's native automation functionality. Request required automation updates or pause/resume actions from the parent/controller through its supported route; those controls remain controller-owned.
+
+    On first application, REMINDERS.md is live and this task creates the first web app/database. On a retry, inspect the recorded migration stage and current live store before reading or importing records.
+
+    ## Preserve the Service
+
+    Inspect current chat add/list/modify/remove operations, records, recurrence/timezone rules and the due-reminder loop. Identify its user-visible reminder conversation. Preserve IDs, text, status, due times, recurrence definitions, next occurrences, timezone and delivery destination, including completed/cancelled records.
+
+    Save browser-app-brief.md, link it from the project instruction file and update reminders-brief.md to describe the extension and verified storage change. Keep this version personal on its current host; accounts, public deployment and app-owned reminder processing are outside this assignment.
+
+    ## Migrate to One Database
+
+    Use the instructed Node.js/Next.js stack and SQLite. Follow documentation for installed versions: https://nextjs.org/docs/app/getting-started/installation and https://nextjs.org/docs/app/guides/self-hosting. Preserve the selected instruction filename and other files when scaffolding; consolidate generated framework guidance.
+
+    Put the database on durable writable host storage, outside build output. Every reader/writer must use the same recorded path; do not use copied databases or writable Markdown mirrors.
+
+    For a live Markdown store:
+
+    1. Back it up and inspect the records to preserve. Coordinate a short pause of all writes; the controller owns any native reminder-automation pause.
+    2. Import records without changing IDs or schedule meaning. Verify values against the source and make the import safe to retry without duplicates.
+    3. Switch chat, browser and the existing reminder checker together. Have the controller update the actual native checker configuration to use shared database operations, preserving its schedule, overlap protection, destination and enabled/paused state.
+    4. Record the migration stage, verified live database path and recovery route in reminders-guide.md and FACTORY.md before resuming writes/checking. Keep the old file as a labelled historical backup and remove it from active read/write guidance.
+
+    On an incomplete migration, reconcile its recorded stage while preserving every confirmed write. After a completed switch, continue from live SQLite; never reimport a historical backup over newer edits or deletions, or require the old REMINDERS.md filename to exist.
+
+    Provide shared validated create, list/read, modify, remove/cancel, due-eligibility and delivery-state operations. Chat, browser and the native checker use these operations. Preserve existing cancellation and recurrence rules. Use SQLite transactions and appropriate concurrency controls, re-reading records before conflicting updates; prevent lost edits and overlapping delivery attempts. Preserve uncertain-send handling rather than promising exactly-once delivery across SQLite and chat. Consult https://www.sqlite.org/isolation.html.
+
+    Keep due checking and chat delivery in the one existing native agent automation. Shared data operations do not introduce a second scheduler in the app. Database locking and the application server are ordinary application code.
+
+    ## Build a Current, Usable Interface
+
+    Read Impeccable's installed entry point and relevant procedures. Save product/design context from this brief, preserving existing direction.
+
+    Provide scanning, creation, details, modification and removal/cancellation, including unscheduled reminders if supported. Show status, due date/time, named timezone and recurrence, with the stable ID in details. Use labelled controls, keyboard access, wrapping for long text and a usable narrow layout. Explain invalid/ambiguous values and preserve entered text during correction. Confirm changes from committed records; removal/cancellation must also affect delivery eligibility.
+
+    Read fresh database values on opening, after mutations and on refresh. While open, update chat/checker changes through an appropriate update mechanism or short documented polling interval; refresh on focus and provide manual refresh. Avoid server/browser caching that freezes changing records. Show refresh failures and describe any update delay without claiming instant consistency. Preserve unrelated in-progress form edits during refresh. See https://nextjs.org/docs/app/getting-started/fetching-data.
+
+    ## Keep the Application Available
+
+    Build and run the app on its actual host through a supported parent-owned process, preview service or supervisor. This is application runtime, separate from native agent scheduling. Provide status, restart and stop controls. Transfer a worker-owned process through the supported handoff route or have the controller start it, since a delegated worker's process may end on return.
+
+    Provide and test an address reachable from my browser, using a supported private preview/forwarding route for a remote host. My browser's localhost is not a remote machine. Preserve unrelated services and state which host/processes must remain available.
+
+    ## Check and Hand Over
+
+    Use clearly labelled synthetic reminders with tracked IDs. Save/run relevant automated checks against isolated data, then exercise real browser/chat/checker routes:
+
+    1. Compare migrated IDs, values and schedules with the source, including pending, recurring and completed/cancelled records where present.
+    2. Create through chat and read the same ID/values in the browser within the documented interval. Modify through the browser and read fresh values through chat. Repeat with a browser-created record and chat modification/removal.
+    3. Keep the page open while chat and the checker change records. Confirm fresh display values without losing an in-progress form edit.
+    4. Check invalid input, retained text, long text, keyboard use and desktop/narrow layouts. Invalid records must not save.
+    5. Let the existing native checker process one near-term active reminder, one cancelled before sending and one recurring sample. Observe the active message in its identified conversation, cancelled ineligibility and the correct next recurring occurrence. Close the browser for a due check. Distinguish simulated delivery from actual chat receipt; logs do not establish receipt.
+    6. Restart through the documented app control and read the same saved records through browser and chat.
+
+    Include guide/instruction changes in the candidate: canonical database path, chat operations, browser address, refresh interval, migration recovery, native checker configuration and app/factory/checker controls. Remove stale Markdown requirements that could restore a second store. Clean only synthetic records and temporary resources, preserving user data, migration backup and the working app.
+
+    Return the candidate, observed checks, application map and server/control handoff to the controller. It retains the assignment and active run, verifies the server after your terminal return, and launches a fresh REVIEW.md reviewer for code and rendered design. It sends findings for repair and requests new fresh reviews until none remain. Missing required checks leave the assignment unfinished; your handoff alone is not completion.
+
+    Return progress and blocker observations to the controller. It reports through the native user-facing route saved in FACTORY.md, with the task reference, and reports completion only after the gates pass. Include what was written, run, reviewed or observed, actual messages received and remaining limitations. The controller applies the saved queue-completion rules. Leave the app and existing native automations available.
+
 - [x] T-001: Create a Chat Reminder Service
     Project path: C:\_Work\my-software-factory
 

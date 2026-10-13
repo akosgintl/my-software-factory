@@ -1,0 +1,685 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-10-13T12:18:54.019Z",
+  "title": "Design System: Reminders",
+  "extensions": {
+    "colorMeta": {
+      "accent": {
+        "role": "primary",
+        "displayName": "Stamp-pad Blue",
+        "canonical": "oklch(0.44 0.13 262)",
+        "tonalRamp": [
+          "oklch(0.15 0.13 262)",
+          "oklch(0.27 0.13 262)",
+          "oklch(0.39 0.13 262)",
+          "oklch(0.51 0.13 262)",
+          "oklch(0.63 0.13 262)",
+          "oklch(0.75 0.13 262)",
+          "oklch(0.86 0.13 262)",
+          "oklch(0.95 0.13 262)"
+        ]
+      },
+      "accent-strong": {
+        "role": "primary",
+        "displayName": "Stamp-pad Blue, pressed",
+        "canonical": "oklch(0.37 0.13 262)",
+        "tonalRamp": [
+          "oklch(0.15 0.13 262)",
+          "oklch(0.27 0.13 262)",
+          "oklch(0.39 0.13 262)",
+          "oklch(0.51 0.13 262)",
+          "oklch(0.63 0.13 262)",
+          "oklch(0.75 0.13 262)",
+          "oklch(0.86 0.13 262)",
+          "oklch(0.95 0.13 262)"
+        ]
+      },
+      "accent-tint": {
+        "role": "primary",
+        "displayName": "Blue Wash",
+        "canonical": "oklch(0.935 0.035 262)",
+        "tonalRamp": [
+          "oklch(0.15 0.035 262)",
+          "oklch(0.27 0.035 262)",
+          "oklch(0.39 0.035 262)",
+          "oklch(0.51 0.035 262)",
+          "oklch(0.63 0.035 262)",
+          "oklch(0.75 0.035 262)",
+          "oklch(0.86 0.035 262)",
+          "oklch(0.95 0.035 262)"
+        ]
+      },
+      "accent-line": {
+        "role": "primary",
+        "displayName": "Blue Hairline",
+        "canonical": "oklch(0.8 0.07 262)",
+        "tonalRamp": [
+          "oklch(0.15 0.07 262)",
+          "oklch(0.27 0.07 262)",
+          "oklch(0.39 0.07 262)",
+          "oklch(0.51 0.07 262)",
+          "oklch(0.63 0.07 262)",
+          "oklch(0.75 0.07 262)",
+          "oklch(0.86 0.07 262)",
+          "oklch(0.95 0.07 262)"
+        ]
+      },
+      "shell": {
+        "role": "secondary",
+        "displayName": "Cabinet Green",
+        "canonical": "oklch(0.31 0.055 165)",
+        "tonalRamp": [
+          "oklch(0.15 0.055 165)",
+          "oklch(0.27 0.055 165)",
+          "oklch(0.39 0.055 165)",
+          "oklch(0.51 0.055 165)",
+          "oklch(0.63 0.055 165)",
+          "oklch(0.75 0.055 165)",
+          "oklch(0.86 0.055 165)",
+          "oklch(0.95 0.055 165)"
+        ]
+      },
+      "shell-2": {
+        "role": "secondary",
+        "displayName": "Cabinet Green, raised",
+        "canonical": "oklch(0.38 0.055 165)",
+        "tonalRamp": [
+          "oklch(0.15 0.055 165)",
+          "oklch(0.27 0.055 165)",
+          "oklch(0.39 0.055 165)",
+          "oklch(0.51 0.055 165)",
+          "oklch(0.63 0.055 165)",
+          "oklch(0.75 0.055 165)",
+          "oklch(0.86 0.055 165)",
+          "oklch(0.95 0.055 165)"
+        ]
+      },
+      "shell-ink": {
+        "role": "secondary",
+        "displayName": "Shell Ink",
+        "canonical": "oklch(0.97 0.012 150)",
+        "tonalRamp": [
+          "oklch(0.15 0.012 150)",
+          "oklch(0.27 0.012 150)",
+          "oklch(0.39 0.012 150)",
+          "oklch(0.51 0.012 150)",
+          "oklch(0.63 0.012 150)",
+          "oklch(0.75 0.012 150)",
+          "oklch(0.86 0.012 150)",
+          "oklch(0.95 0.012 150)"
+        ]
+      },
+      "shell-ink-2": {
+        "role": "secondary",
+        "displayName": "Shell Ink, quiet",
+        "canonical": "oklch(0.87 0.03 155)",
+        "tonalRamp": [
+          "oklch(0.15 0.03 155)",
+          "oklch(0.27 0.03 155)",
+          "oklch(0.39 0.03 155)",
+          "oklch(0.51 0.03 155)",
+          "oklch(0.63 0.03 155)",
+          "oklch(0.75 0.03 155)",
+          "oklch(0.86 0.03 155)",
+          "oklch(0.95 0.03 155)"
+        ]
+      },
+      "tab-attention": {
+        "role": "tertiary",
+        "displayName": "Guide Salmon",
+        "canonical": "oklch(0.87 0.075 35)",
+        "tonalRamp": [
+          "oklch(0.15 0.075 35)",
+          "oklch(0.27 0.075 35)",
+          "oklch(0.39 0.075 35)",
+          "oklch(0.51 0.075 35)",
+          "oklch(0.63 0.075 35)",
+          "oklch(0.75 0.075 35)",
+          "oklch(0.86 0.075 35)",
+          "oklch(0.95 0.075 35)"
+        ]
+      },
+      "tab-scheduled": {
+        "role": "tertiary",
+        "displayName": "Guide Blue",
+        "canonical": "oklch(0.875 0.055 245)",
+        "tonalRamp": [
+          "oklch(0.15 0.055 245)",
+          "oklch(0.27 0.055 245)",
+          "oklch(0.39 0.055 245)",
+          "oklch(0.51 0.055 245)",
+          "oklch(0.63 0.055 245)",
+          "oklch(0.75 0.055 245)",
+          "oklch(0.86 0.055 245)",
+          "oklch(0.95 0.055 245)"
+        ]
+      },
+      "tab-unscheduled": {
+        "role": "tertiary",
+        "displayName": "Guide Buff",
+        "canonical": "oklch(0.895 0.065 92)",
+        "tonalRamp": [
+          "oklch(0.15 0.065 92)",
+          "oklch(0.27 0.065 92)",
+          "oklch(0.39 0.065 92)",
+          "oklch(0.51 0.065 92)",
+          "oklch(0.63 0.065 92)",
+          "oklch(0.75 0.065 92)",
+          "oklch(0.86 0.065 92)",
+          "oklch(0.95 0.065 92)"
+        ]
+      },
+      "tab-delivered": {
+        "role": "tertiary",
+        "displayName": "Guide Green",
+        "canonical": "oklch(0.885 0.045 160)",
+        "tonalRamp": [
+          "oklch(0.15 0.045 160)",
+          "oklch(0.27 0.045 160)",
+          "oklch(0.39 0.045 160)",
+          "oklch(0.51 0.045 160)",
+          "oklch(0.63 0.045 160)",
+          "oklch(0.75 0.045 160)",
+          "oklch(0.86 0.045 160)",
+          "oklch(0.95 0.045 160)"
+        ]
+      },
+      "rule-red": {
+        "role": "tertiary",
+        "displayName": "Index Red",
+        "canonical": "oklch(0.6 0.19 25)",
+        "tonalRamp": [
+          "oklch(0.15 0.19 25)",
+          "oklch(0.27 0.19 25)",
+          "oklch(0.39 0.19 25)",
+          "oklch(0.51 0.19 25)",
+          "oklch(0.63 0.19 25)",
+          "oklch(0.75 0.19 25)",
+          "oklch(0.86 0.19 25)",
+          "oklch(0.95 0.19 25)"
+        ]
+      },
+      "ground": {
+        "role": "neutral",
+        "displayName": "Sage Ground",
+        "canonical": "oklch(0.953 0.012 155)",
+        "tonalRamp": [
+          "oklch(0.15 0.012 155)",
+          "oklch(0.27 0.012 155)",
+          "oklch(0.39 0.012 155)",
+          "oklch(0.51 0.012 155)",
+          "oklch(0.63 0.012 155)",
+          "oklch(0.75 0.012 155)",
+          "oklch(0.86 0.012 155)",
+          "oklch(0.95 0.012 155)"
+        ]
+      },
+      "surface": {
+        "role": "neutral",
+        "displayName": "Card Stock",
+        "canonical": "oklch(0.992 0.004 110)",
+        "tonalRamp": [
+          "oklch(0.15 0.004 110)",
+          "oklch(0.27 0.004 110)",
+          "oklch(0.39 0.004 110)",
+          "oklch(0.51 0.004 110)",
+          "oklch(0.63 0.004 110)",
+          "oklch(0.75 0.004 110)",
+          "oklch(0.86 0.004 110)",
+          "oklch(0.95 0.004 110)"
+        ]
+      },
+      "surface-2": {
+        "role": "neutral",
+        "displayName": "Card Stock, shaded",
+        "canonical": "oklch(0.972 0.008 150)",
+        "tonalRamp": [
+          "oklch(0.15 0.008 150)",
+          "oklch(0.27 0.008 150)",
+          "oklch(0.39 0.008 150)",
+          "oklch(0.51 0.008 150)",
+          "oklch(0.63 0.008 150)",
+          "oklch(0.75 0.008 150)",
+          "oklch(0.86 0.008 150)",
+          "oklch(0.95 0.008 150)"
+        ]
+      },
+      "line": {
+        "role": "neutral",
+        "displayName": "Hairline",
+        "canonical": "oklch(0.87 0.014 160)",
+        "tonalRamp": [
+          "oklch(0.15 0.014 160)",
+          "oklch(0.27 0.014 160)",
+          "oklch(0.39 0.014 160)",
+          "oklch(0.51 0.014 160)",
+          "oklch(0.63 0.014 160)",
+          "oklch(0.75 0.014 160)",
+          "oklch(0.86 0.014 160)",
+          "oklch(0.95 0.014 160)"
+        ]
+      },
+      "line-strong": {
+        "role": "neutral",
+        "displayName": "Edge",
+        "canonical": "oklch(0.6 0.02 160)",
+        "tonalRamp": [
+          "oklch(0.15 0.02 160)",
+          "oklch(0.27 0.02 160)",
+          "oklch(0.39 0.02 160)",
+          "oklch(0.51 0.02 160)",
+          "oklch(0.63 0.02 160)",
+          "oklch(0.75 0.02 160)",
+          "oklch(0.86 0.02 160)",
+          "oklch(0.95 0.02 160)"
+        ]
+      },
+      "ink": {
+        "role": "neutral",
+        "displayName": "Ink",
+        "canonical": "oklch(0.25 0.022 165)",
+        "tonalRamp": [
+          "oklch(0.15 0.022 165)",
+          "oklch(0.27 0.022 165)",
+          "oklch(0.39 0.022 165)",
+          "oklch(0.51 0.022 165)",
+          "oklch(0.63 0.022 165)",
+          "oklch(0.75 0.022 165)",
+          "oklch(0.86 0.022 165)",
+          "oklch(0.95 0.022 165)"
+        ]
+      },
+      "ink-2": {
+        "role": "neutral",
+        "displayName": "Ink, quiet",
+        "canonical": "oklch(0.43 0.022 165)",
+        "tonalRamp": [
+          "oklch(0.15 0.022 165)",
+          "oklch(0.27 0.022 165)",
+          "oklch(0.39 0.022 165)",
+          "oklch(0.51 0.022 165)",
+          "oklch(0.63 0.022 165)",
+          "oklch(0.75 0.022 165)",
+          "oklch(0.86 0.022 165)",
+          "oklch(0.95 0.022 165)"
+        ]
+      },
+      "danger": {
+        "role": "semantic",
+        "displayName": "Danger",
+        "canonical": "oklch(0.48 0.18 27)",
+        "tonalRamp": [
+          "oklch(0.15 0.18 27)",
+          "oklch(0.27 0.18 27)",
+          "oklch(0.39 0.18 27)",
+          "oklch(0.51 0.18 27)",
+          "oklch(0.63 0.18 27)",
+          "oklch(0.75 0.18 27)",
+          "oklch(0.86 0.18 27)",
+          "oklch(0.95 0.18 27)"
+        ]
+      },
+      "danger-strong": {
+        "role": "semantic",
+        "displayName": "Danger, strong",
+        "canonical": "oklch(0.41 0.17 27)",
+        "tonalRamp": [
+          "oklch(0.15 0.17 27)",
+          "oklch(0.27 0.17 27)",
+          "oklch(0.39 0.17 27)",
+          "oklch(0.51 0.17 27)",
+          "oklch(0.63 0.17 27)",
+          "oklch(0.75 0.17 27)",
+          "oklch(0.86 0.17 27)",
+          "oklch(0.95 0.17 27)"
+        ]
+      },
+      "danger-tint": {
+        "role": "semantic",
+        "displayName": "Danger Tint",
+        "canonical": "oklch(0.955 0.025 25)",
+        "tonalRamp": [
+          "oklch(0.15 0.025 25)",
+          "oklch(0.27 0.025 25)",
+          "oklch(0.39 0.025 25)",
+          "oklch(0.51 0.025 25)",
+          "oklch(0.63 0.025 25)",
+          "oklch(0.75 0.025 25)",
+          "oklch(0.86 0.025 25)",
+          "oklch(0.95 0.025 25)"
+        ]
+      },
+      "danger-line": {
+        "role": "semantic",
+        "displayName": "Danger Hairline",
+        "canonical": "oklch(0.82 0.08 25)",
+        "tonalRamp": [
+          "oklch(0.15 0.08 25)",
+          "oklch(0.27 0.08 25)",
+          "oklch(0.39 0.08 25)",
+          "oklch(0.51 0.08 25)",
+          "oklch(0.63 0.08 25)",
+          "oklch(0.75 0.08 25)",
+          "oklch(0.86 0.08 25)",
+          "oklch(0.95 0.08 25)"
+        ]
+      },
+      "warn-ink": {
+        "role": "semantic",
+        "displayName": "Warning Ink",
+        "canonical": "oklch(0.42 0.1 60)",
+        "tonalRamp": [
+          "oklch(0.15 0.1 60)",
+          "oklch(0.27 0.1 60)",
+          "oklch(0.39 0.1 60)",
+          "oklch(0.51 0.1 60)",
+          "oklch(0.63 0.1 60)",
+          "oklch(0.75 0.1 60)",
+          "oklch(0.86 0.1 60)",
+          "oklch(0.95 0.1 60)"
+        ]
+      },
+      "warn-tint": {
+        "role": "semantic",
+        "displayName": "Warning Tint",
+        "canonical": "oklch(0.955 0.045 85)",
+        "tonalRamp": [
+          "oklch(0.15 0.045 85)",
+          "oklch(0.27 0.045 85)",
+          "oklch(0.39 0.045 85)",
+          "oklch(0.51 0.045 85)",
+          "oklch(0.63 0.045 85)",
+          "oklch(0.75 0.045 85)",
+          "oklch(0.86 0.045 85)",
+          "oklch(0.95 0.045 85)"
+        ]
+      },
+      "warn-line": {
+        "role": "semantic",
+        "displayName": "Warning Hairline",
+        "canonical": "oklch(0.82 0.09 80)",
+        "tonalRamp": [
+          "oklch(0.15 0.09 80)",
+          "oklch(0.27 0.09 80)",
+          "oklch(0.39 0.09 80)",
+          "oklch(0.51 0.09 80)",
+          "oklch(0.63 0.09 80)",
+          "oklch(0.75 0.09 80)",
+          "oklch(0.86 0.09 80)",
+          "oklch(0.95 0.09 80)"
+        ]
+      },
+      "ok-ink": {
+        "role": "semantic",
+        "displayName": "Confirmation Ink",
+        "canonical": "oklch(0.39 0.085 160)",
+        "tonalRamp": [
+          "oklch(0.15 0.085 160)",
+          "oklch(0.27 0.085 160)",
+          "oklch(0.39 0.085 160)",
+          "oklch(0.51 0.085 160)",
+          "oklch(0.63 0.085 160)",
+          "oklch(0.75 0.085 160)",
+          "oklch(0.86 0.085 160)",
+          "oklch(0.95 0.085 160)"
+        ]
+      },
+      "ok-tint": {
+        "role": "semantic",
+        "displayName": "Confirmation Tint",
+        "canonical": "oklch(0.95 0.035 160)",
+        "tonalRamp": [
+          "oklch(0.15 0.035 160)",
+          "oklch(0.27 0.035 160)",
+          "oklch(0.39 0.035 160)",
+          "oklch(0.51 0.035 160)",
+          "oklch(0.63 0.035 160)",
+          "oklch(0.75 0.035 160)",
+          "oklch(0.86 0.035 160)",
+          "oklch(0.95 0.035 160)"
+        ]
+      },
+      "ok-line": {
+        "role": "semantic",
+        "displayName": "Confirmation Hairline",
+        "canonical": "oklch(0.82 0.06 160)",
+        "tonalRamp": [
+          "oklch(0.15 0.06 160)",
+          "oklch(0.27 0.06 160)",
+          "oklch(0.39 0.06 160)",
+          "oklch(0.51 0.06 160)",
+          "oklch(0.63 0.06 160)",
+          "oklch(0.75 0.06 160)",
+          "oklch(0.86 0.06 160)",
+          "oklch(0.95 0.06 160)"
+        ]
+      }
+    },
+    "typographyMeta": {
+      "call-number-lg": {
+        "displayName": "Call number, large",
+        "purpose": "Heading of an open record card, over the red rule."
+      },
+      "headline": {
+        "displayName": "Headline",
+        "purpose": "Product name in the bar; headings of forms and the explanatory card."
+      },
+      "lead": {
+        "displayName": "Lead",
+        "purpose": "The full reminder text in an open record, capped at 65ch."
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "Default text with tabular figures; row text uses weight 550."
+      },
+      "call-number": {
+        "displayName": "Call number",
+        "purpose": "Leading column of every catalogue row; bold and blue when the row is selected."
+      },
+      "label": {
+        "displayName": "Label",
+        "purpose": "Guide tabs, field labels, status words, emphasised due times; buttons at weight 600."
+      },
+      "meta": {
+        "displayName": "Meta",
+        "purpose": "Lines under a row text, hints, footer."
+      },
+      "typed": {
+        "displayName": "Typed inline",
+        "purpose": "A reminder ID or exact UTC instant inside a sentence or fact."
+      }
+    },
+    "shadows": [
+      {
+        "name": "shadow-card",
+        "value": "0 1px 2px oklch(0.25 0.02 165 / 0.06), 0 6px 18px -8px oklch(0.25 0.02 165 / 0.18)",
+        "purpose": "The open card in the panel pane and the unsaved-entries prompt above it. Nothing in the list is lifted."
+      }
+    ],
+    "motion": [
+      {
+        "name": "ease-out",
+        "value": "cubic-bezier(0.16, 1, 0.3, 1)",
+        "purpose": "The only easing curve; used for every state transition and the card rise."
+      },
+      {
+        "name": "state-transition",
+        "value": "150ms",
+        "purpose": "Background, border and text colour changes on buttons, rows and fields."
+      },
+      {
+        "name": "card-lift",
+        "value": "220ms, from translateY(8px), no fade",
+        "purpose": "A card entering the panel pane."
+      },
+      {
+        "name": "spin",
+        "value": "700ms linear infinite",
+        "purpose": "The Refresh icon while a manual reread is running."
+      },
+      {
+        "name": "reduced-motion",
+        "value": "animation: none; transition: none",
+        "purpose": "Applied to everything under prefers-reduced-motion: reduce."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "narrow",
+        "value": "860px"
+      },
+      {
+        "name": "smallest",
+        "value": "420px"
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "The one main action of a group: Edit, Save reminder, Keep editing.",
+      "html": "<button class=\"ds-btn-primary\">Save reminder</button>",
+      "css": ".ds-btn-primary { display: inline-flex; align-items: center; justify-content: center; gap: var(--s2); min-height: var(--control-h); padding: 0 var(--s4); border: 1px solid var(--line-strong); border-radius: var(--radius); background: var(--surface); color: var(--ink); font-family: var(--font-ui); font-size: var(--text-sm); font-weight: 600; line-height: 1.2; cursor: pointer; transition: background-color 150ms var(--ease-out), border-color 150ms var(--ease-out), color 150ms var(--ease-out); background: var(--accent); border-color: var(--accent); color: oklch(0.99 0.005 262); } .ds-btn-primary:hover { background: var(--accent-strong); border-color: var(--accent-strong); } .ds-btn-primary:active { background: oklch(0.32 0.12 262); } .ds-btn-primary:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }"
+    },
+    {
+      "name": "Default Button",
+      "kind": "button",
+      "refersTo": "button",
+      "description": "Secondary actions: Stop sending, Cancel, Try now.",
+      "html": "<button class=\"ds-btn\">Stop sending</button>",
+      "css": ".ds-btn { display: inline-flex; align-items: center; justify-content: center; gap: var(--s2); min-height: var(--control-h); padding: 0 var(--s4); border: 1px solid var(--line-strong); border-radius: var(--radius); background: var(--surface); color: var(--ink); font-family: var(--font-ui); font-size: var(--text-sm); font-weight: 600; line-height: 1.2; cursor: pointer; transition: background-color 150ms var(--ease-out), border-color 150ms var(--ease-out), color 150ms var(--ease-out); } .ds-btn:hover { background: var(--surface-2); border-color: var(--ink-2); } .ds-btn:active { background: var(--line); } .ds-btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }"
+    },
+    {
+      "name": "Danger Buttons",
+      "kind": "button",
+      "refersTo": "button-danger-quiet",
+      "description": "Remove at rest is quiet and set apart; the solid form appears only inside the Remove confirmation.",
+      "html": "<div class=\"ds-danger-row\"><button class=\"ds-btn-danger-quiet\">Remove</button><button class=\"ds-btn-danger\">Remove reminder</button></div>",
+      "css": ".ds-danger-row { display: flex; flex-wrap: wrap; gap: var(--s5); } .ds-btn-danger-quiet { display: inline-flex; align-items: center; justify-content: center; gap: var(--s2); min-height: var(--control-h); padding: 0 var(--s4); border: 1px solid var(--line-strong); border-radius: var(--radius); background: var(--surface); color: var(--ink); font-family: var(--font-ui); font-size: var(--text-sm); font-weight: 600; line-height: 1.2; cursor: pointer; transition: background-color 150ms var(--ease-out), border-color 150ms var(--ease-out), color 150ms var(--ease-out); border-color: var(--danger); color: var(--danger); } .ds-btn-danger-quiet:hover { background: var(--danger-tint); border-color: var(--danger); } .ds-btn-danger { display: inline-flex; align-items: center; justify-content: center; gap: var(--s2); min-height: var(--control-h); padding: 0 var(--s4); border: 1px solid var(--line-strong); border-radius: var(--radius); background: var(--surface); color: var(--ink); font-family: var(--font-ui); font-size: var(--text-sm); font-weight: 600; line-height: 1.2; cursor: pointer; transition: background-color 150ms var(--ease-out), border-color 150ms var(--ease-out), color 150ms var(--ease-out); background: var(--danger); border-color: var(--danger); color: oklch(0.99 0.005 27); } .ds-btn-danger:hover, .ds-btn-danger:active { background: var(--danger-strong); border-color: var(--danger-strong); } .ds-btn-danger-quiet:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; } .ds-btn-danger:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }"
+    },
+    {
+      "name": "Quiet Button",
+      "kind": "button",
+      "refersTo": "button-quiet",
+      "description": "Low-weight actions inside text or banners: Dismiss, Change, back to the list.",
+      "html": "<button class=\"ds-btn-quiet\">Change</button>",
+      "css": ".ds-btn-quiet { display: inline-flex; align-items: center; justify-content: center; gap: var(--s2); min-height: var(--control-h); padding: 0 var(--s4); border: 1px solid var(--line-strong); border-radius: var(--radius); background: var(--surface); color: var(--ink); font-family: var(--font-ui); font-size: var(--text-sm); font-weight: 600; line-height: 1.2; cursor: pointer; transition: background-color 150ms var(--ease-out), border-color 150ms var(--ease-out), color 150ms var(--ease-out); border-color: transparent; background: transparent; color: var(--accent-strong); padding: 0 var(--s2); text-decoration: underline; text-decoration-color: var(--accent-line); text-underline-offset: 0.2em; } .ds-btn-quiet:hover { background: var(--accent-tint); border-color: transparent; } .ds-btn-quiet:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }"
+    },
+    {
+      "name": "Shell Bar",
+      "kind": "nav",
+      "refersTo": "button-shell",
+      "description": "The cabinet-green header: product name, freshness line, Refresh and New reminder.",
+      "html": "<header class=\"ds-shell\"><span class=\"ds-shell-title\">Reminders</span><span class=\"ds-shell-status\">Reread at 14:13:30 · rereads every 5 seconds</span><span class=\"ds-shell-actions\"><button class=\"ds-btn-shell\"><svg width=\"16\" height=\"16\" viewBox=\"0 0 16 16\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M13.5 8a5.5 5.5 0 1 1-1.7-4\"/><path d=\"M13.5 2.5V5H11\"/></svg>Refresh</button><button class=\"ds-btn-shell-primary\"><svg width=\"16\" height=\"16\" viewBox=\"0 0 16 16\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M8 3v10M3 8h10\"/></svg>New reminder</button></span></header>",
+      "css": ".ds-shell { display: flex; align-items: center; flex-wrap: wrap; gap: var(--s2) var(--s4); padding: var(--s3) var(--s5); background: var(--shell); color: var(--shell-ink); border-bottom: 1px solid var(--shell-2); font-family: var(--font-ui); } .ds-shell-title { font-size: var(--text-xl); font-weight: 700; letter-spacing: -0.01em; line-height: 1.2; } .ds-shell-status { color: var(--shell-ink-2); font-size: var(--text-sm); margin-right: auto; font-variant-numeric: tabular-nums; } .ds-shell-actions { display: flex; gap: var(--s2); flex-wrap: wrap; } .ds-btn-shell, .ds-btn-shell-primary { display: inline-flex; align-items: center; justify-content: center; gap: var(--s2); min-height: var(--control-h); padding: 0 var(--s4); border: 1px solid var(--line-strong); border-radius: var(--radius); background: var(--surface); color: var(--ink); font-family: var(--font-ui); font-size: var(--text-sm); font-weight: 600; line-height: 1.2; cursor: pointer; transition: background-color 150ms var(--ease-out), border-color 150ms var(--ease-out), color 150ms var(--ease-out); } .ds-btn-shell { background: transparent; border-color: var(--shell-ink-2); color: var(--shell-ink); } .ds-btn-shell:hover { background: var(--shell-2); border-color: var(--shell-ink); } .ds-btn-shell:active { background: oklch(0.26 0.05 165); } .ds-btn-shell-primary { background: var(--shell-ink); border-color: var(--shell-ink); color: var(--shell); } .ds-btn-shell-primary:hover { background: oklch(1 0 0); border-color: oklch(1 0 0); } .ds-btn-shell-primary:active { background: var(--shell-ink-2); } .ds-btn-shell:focus-visible { outline: 2px solid var(--shell-ink); outline-offset: 2px; } .ds-btn-shell-primary:focus-visible { outline: 2px solid var(--shell-ink); outline-offset: 2px; }"
+    },
+    {
+      "name": "Guide Tab And Catalogue Rows",
+      "kind": "custom",
+      "refersTo": "guide-tab",
+      "description": "The signature: a tinted guide tab standing on a group of rows, each row led by its typed call number.",
+      "html": "<section class=\"ds-group\"><h3 class=\"ds-tab\">Scheduled <span class=\"ds-tab-count\">2</span></h3><ul class=\"ds-rows\"><li><a class=\"ds-row\" href=\"#\" aria-current=\"true\"><span class=\"ds-callno\">R-0005</span><span class=\"ds-row-main\"><span class=\"ds-row-text\">Call the dentist about Thursday</span><span class=\"ds-row-meta\"><span class=\"ds-row-line\"><span class=\"ds-when\">Wed 2026-10-14 09:00</span><span>Europe/Budapest</span><span>in 19 hours</span></span><span class=\"ds-row-line\">Once</span></span></span><span class=\"ds-row-go\"><svg width=\"16\" height=\"16\" viewBox=\"0 0 16 16\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M6 3.5 10.5 8 6 12.5\"/></svg></span></a></li><li><a class=\"ds-row\" href=\"#\"><span class=\"ds-callno\">R-0004</span><span class=\"ds-row-main\"><span class=\"ds-row-text\">Send the weekly report</span><span class=\"ds-row-meta\"><span class=\"ds-row-line\"><span class=\"ds-when\">Thu 2026-10-15 08:30</span><span>Europe/Budapest</span><span>in 2 days</span></span><span class=\"ds-row-line\"><span class=\"ds-rule\"><svg width=\"16\" height=\"16\" viewBox=\"0 0 16 16\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M3 7V6a2 2 0 0 1 2-2h7.5\"/><path d=\"M10.5 2 12.5 4l-2 2\"/><path d=\"M13 9v1a2 2 0 0 1-2 2H3.5\"/><path d=\"M5.5 14 3.5 12l2-2\"/></svg>Every Monday and Thursday at 08:30</span></span></span></span><span class=\"ds-row-go\"><svg width=\"16\" height=\"16\" viewBox=\"0 0 16 16\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M6 3.5 10.5 8 6 12.5\"/></svg></span></a></li></ul></section>",
+      "css": ".ds-group { font-family: var(--font-ui); color: var(--ink); font-variant-numeric: tabular-nums; } .ds-tab { display: inline-flex; align-items: baseline; gap: var(--s2); margin: 0 0 0 var(--s3); padding: 0.3rem var(--s3) 0.25rem; border: 1px solid var(--line-strong); border-bottom: 0; border-radius: 8px 8px 0 0; background: var(--tab-scheduled); font-size: var(--text-sm); font-weight: 650; line-height: 1.3; position: relative; top: 1px; } .ds-tab-count { font-weight: 500; color: var(--ink-2); } .ds-rows { list-style: none; margin: 0; padding: 0; background: var(--surface); border: 1px solid var(--line-strong); border-radius: var(--radius); overflow: hidden; } .ds-rows > li + li { border-top: 1px solid var(--line); } .ds-row { display: grid; grid-template-columns: 4.75rem minmax(0, 1fr) auto; gap: var(--s3); align-items: start; padding: var(--s3) var(--s3) var(--s3) var(--s4); color: inherit; text-decoration: none; transition: background-color 150ms var(--ease-out); } .ds-row:hover { background: var(--surface-2); } .ds-row:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; } .ds-row[aria-current='true'] { background: var(--accent-tint); } .ds-callno { font-family: var(--font-id); font-size: var(--text-md); line-height: 1.5; color: var(--ink-2); white-space: nowrap; } .ds-row[aria-current='true'] .ds-callno { color: var(--accent-strong); font-weight: 700; } .ds-row-main { display: grid; gap: 0.15rem; min-width: 0; } .ds-row-text { font-weight: 550; line-height: 1.5; overflow-wrap: anywhere; } .ds-row-meta { display: grid; gap: 0.1rem; font-size: var(--text-xs); color: var(--ink-2); line-height: 1.5; } .ds-row-line { display: flex; flex-wrap: wrap; gap: 0.1rem var(--s3); } .ds-when { color: var(--ink); font-weight: 600; white-space: nowrap; } .ds-rule { display: inline-flex; align-items: center; gap: 0.3rem; } .ds-row-go { color: var(--line-strong); padding-top: 0.2rem; } .ds-row:hover .ds-row-go, .ds-row[aria-current='true'] .ds-row-go { color: var(--accent-strong); }"
+    },
+    {
+      "name": "Record Card",
+      "kind": "card",
+      "refersTo": "record-card",
+      "description": "The open reminder: typed call number and status mark over the red rule, the full text, then facts.",
+      "html": "<article class=\"ds-card\"><div class=\"ds-card-head\"><h2 class=\"ds-callno-lg\">R-0005</h2><span class=\"ds-status\"><svg width=\"16\" height=\"16\" viewBox=\"0 0 16 16\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><circle cx=\"8\" cy=\"8\" r=\"5.5\"/><path d=\"M8 5v3.2l2 1.3\"/></svg>Scheduled</span></div><p class=\"ds-detail-text\">Call the dentist about Thursday</p><dl class=\"ds-facts\"><div><dt>Next due</dt><dd><span class=\"ds-fact-when\">Wed 2026-10-14 09:00</span> (UTC+02:00)</dd></div><div><dt>Timezone</dt><dd>Europe/Budapest</dd></div><div><dt>Exact instant</dt><dd class=\"ds-typed\">2026-10-14 07:00 UTC</dd></div></dl></article>",
+      "css": ".ds-card { display: grid; gap: var(--s4); padding: var(--s5); background: var(--surface); border: 1px solid var(--line-strong); border-radius: var(--radius-lg); box-shadow: var(--shadow-card); font-family: var(--font-ui); color: var(--ink); font-variant-numeric: tabular-nums; } .ds-card-head { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: var(--s2) var(--s4); padding-bottom: var(--s3); border-bottom: 2px solid var(--rule-red); } .ds-callno-lg { margin: 0; font-family: var(--font-id); font-size: 1.625rem; font-weight: 700; letter-spacing: 0; line-height: 1.25; white-space: nowrap; } .ds-status { display: inline-flex; align-items: center; gap: 0.3rem; font-weight: 650; white-space: nowrap; color: var(--accent-strong); } .ds-detail-text { margin: 0; font-size: var(--text-lg); line-height: 1.5; max-width: 65ch; overflow-wrap: anywhere; } .ds-facts { display: grid; gap: var(--s3); margin: 0; font-size: var(--text-sm); line-height: 1.5; } .ds-facts > div { display: grid; grid-template-columns: 9.5rem minmax(0, 1fr); gap: var(--s3); } .ds-facts dt { color: var(--ink-2); } .ds-facts dd { margin: 0; overflow-wrap: anywhere; max-width: 60ch; } .ds-fact-when { font-weight: 650; white-space: nowrap; } .ds-typed { font-family: var(--font-id); font-size: 1.0625em; }"
+    },
+    {
+      "name": "Text Field",
+      "kind": "input",
+      "refersTo": "input",
+      "description": "Label above, hint below; a refused value keeps what was typed and says what was wrong.",
+      "html": "<div class=\"ds-fields\"><div class=\"ds-field\"><label for=\"ds-tz\">Timezone</label><input id=\"ds-tz\" value=\"Europe/Budapest\"><p class=\"ds-hint\">An IANA name such as Europe/Budapest.</p></div><div class=\"ds-field\"><label for=\"ds-dom\">Day of the month</label><input id=\"ds-dom\" value=\"32\" aria-invalid=\"true\"><p class=\"ds-field-error\">Enter a day from 1 to 31. Nothing was saved.</p></div></div>",
+      "css": ".ds-fields { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--s4); align-items: start; font-family: var(--font-ui); color: var(--ink); } .ds-field { display: grid; gap: 0.3rem; min-width: 0; } .ds-field > label { font-size: var(--text-sm); font-weight: 650; } .ds-field input { width: 100%; min-height: var(--control-h); padding: 0.4rem 0.65rem; border: 1px solid var(--line-strong); border-radius: var(--radius); background: oklch(1 0 0); color: inherit; font: inherit; line-height: 1.4; transition: border-color 150ms var(--ease-out), box-shadow 150ms var(--ease-out); } .ds-field input:hover { border-color: var(--ink-2); } .ds-field input:focus-visible { outline: 2px solid var(--accent); outline-offset: 0; border-color: var(--accent); } .ds-field input[aria-invalid='true'] { border-color: var(--danger); box-shadow: inset 0 0 0 1px var(--danger); } .ds-hint { margin: 0; font-size: var(--text-xs); color: var(--ink-2); } .ds-field-error { margin: 0; font-size: var(--text-sm); font-weight: 600; color: var(--danger); }"
+    },
+    {
+      "name": "Weekday Chips",
+      "kind": "chip",
+      "refersTo": "day-chip",
+      "description": "Bordered labels around native checkboxes for weekly schedules; checked turns the chip blue-washed.",
+      "html": "<div class=\"ds-days\"><label class=\"ds-day\"><input type=\"checkbox\" checked>Monday</label><label class=\"ds-day\"><input type=\"checkbox\">Tuesday</label><label class=\"ds-day\"><input type=\"checkbox\" checked>Thursday</label></div>",
+      "css": ".ds-days { display: flex; flex-wrap: wrap; gap: var(--s2); font-family: var(--font-ui); color: var(--ink); } .ds-day { display: inline-flex; align-items: center; gap: var(--s2); min-height: var(--control-h); padding: 0 var(--s3); border: 1px solid var(--line-strong); border-radius: var(--radius); background: oklch(1 0 0); font-size: var(--text-sm); cursor: pointer; } .ds-day:hover { border-color: var(--ink-2); } .ds-day:has(input:checked) { background: var(--accent-tint); border-color: var(--accent); font-weight: 650; } .ds-day:has(input:focus-visible) { outline: 2px solid var(--accent); outline-offset: 2px; } .ds-day input { width: 1.05rem; height: 1.05rem; margin: 0; flex: none; accent-color: var(--accent); } .ds-day input:focus-visible { outline: none; }"
+    },
+    {
+      "name": "Banners And Status Marks",
+      "kind": "custom",
+      "refersTo": "banner-warn",
+      "description": "Outlined message strips for errors, warnings and confirmations; statuses are always an icon plus a word.",
+      "html": "<div class=\"ds-stack\"><div class=\"ds-banner ds-banner-ok\"><p>Changes saved. R-0005 is next sent Wed 2026-10-14 09:00 (Europe/Budapest).</p></div><div class=\"ds-banner ds-banner-warn\"><p>This form has entries that are not saved. Leave it and lose them?</p></div><div class=\"ds-banner ds-banner-error\"><p>One value needs correcting. Nothing was saved.</p></div><p class=\"ds-marks\"><span class=\"ds-mark ds-mark-scheduled\"><svg width=\"16\" height=\"16\" viewBox=\"0 0 16 16\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><circle cx=\"8\" cy=\"8\" r=\"5.5\"/><path d=\"M8 5v3.2l2 1.3\"/></svg>Scheduled</span><span class=\"ds-mark ds-mark-delivered\"><svg width=\"16\" height=\"16\" viewBox=\"0 0 16 16\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"m3.5 8.5 3 3 6-7\"/></svg>Delivered</span><span class=\"ds-mark ds-mark-uncertain\"><svg width=\"16\" height=\"16\" viewBox=\"0 0 16 16\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M8 2.5 14 13H2z\"/><path d=\"M8 6.5v3M8 11.3v.2\"/></svg>Delivery uncertain</span></p></div>",
+      "css": ".ds-stack { display: grid; gap: var(--s3); font-family: var(--font-ui); } .ds-banner { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--s2) var(--s4); padding: var(--s3) var(--s4); border: 1px solid var(--line); border-radius: var(--radius); font-size: var(--text-sm); line-height: 1.5; } .ds-banner p { margin: 0; } .ds-banner-error { background: var(--danger-tint); border-color: var(--danger-line); color: var(--danger-strong); } .ds-banner-warn { background: var(--warn-tint); border-color: var(--warn-line); color: var(--ink); } .ds-banner-ok { background: var(--ok-tint); border-color: var(--ok-line); color: var(--ink); } .ds-marks { display: flex; flex-wrap: wrap; gap: var(--s2) var(--s5); margin: 0; font-size: var(--text-sm); } .ds-mark { display: inline-flex; align-items: center; gap: 0.3rem; font-weight: 650; white-space: nowrap; } .ds-mark-scheduled { color: var(--accent-strong); } .ds-mark-delivered { color: var(--ok-ink); } .ds-mark-uncertain { color: var(--danger); }"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Card Catalogue",
+    "overview": "A reminder is a card filed under a call number. The screen is a library card catalogue that can be read in one pass: every row leads with its stable ID in a typewriter face, and groups of rows sit behind coloured guide tabs, the way guide cards stand up in a drawer. The catalogue lends its type, palette, density and that one signature. Nothing else is borrowed: no paper texture, no drawer handles, no skeuomorphic props.\n\nIt is a working screen for one person. Density is moderate, text wraps instead of truncating, and every control is a standard web control. The dark green bar at the top is the cabinet; everything below is pale card stock on a pale sage ground. Colour carries meaning in four places only: blue for actions and selection, the four tab tints for the four groups, one red rule under a record's call number, and the red, amber and green of messages.",
+    "keyCharacteristics": [
+      "A typed call-number column leads every row and heads every record card.",
+      "Four tinted guide tabs name the four groups: Needs your attention, Scheduled, Not scheduled, Delivered.",
+      "A dark green shell bar over a pale sage ground with near-white card surfaces.",
+      "One blue for every action and for the selected row.",
+      "Status is always a mark plus a word, never colour alone.",
+      "Hairline borders (1px) throughout; one soft shadow, used only on the open card.",
+      "Two panes on a wide window, one pane at a time on a narrow one. On a wide window the open card stays beside the list and scrolls by itself when it is longer than the window.",
+      "A message is on screen only while it is true: it goes when the record or the entries it describes change."
+    ],
+    "rules": [
+      {
+        "name": "The Mark And Word Rule",
+        "body": "A status is an icon plus a word in a status colour. Colour never stands alone, and a tab tint never stands alone either: the tab always carries the group's name and count.",
+        "section": "colors"
+      },
+      {
+        "name": "The Tint Is A Label Rule",
+        "body": "The four guide tints are backgrounds for short labels set in Ink (the tabs, the test-data flag). They are not text colours, not row fills and not borders.",
+        "section": "colors"
+      },
+      {
+        "name": "The One Red Rule",
+        "body": "Index Red draws the rule under a card head and nothing else. Errors and destructive actions use the Danger family, which is a different, darker red.",
+        "section": "colors"
+      },
+      {
+        "name": "The Typed Means Exact Rule",
+        "body": "Courier Prime is for reminder IDs and exact UTC instants. Nothing else is typed: not headings, not labels, not local times, not button text.",
+        "section": "typography"
+      },
+      {
+        "name": "The Next-Due Rule",
+        "body": "In a row's meta lines the due date and time is the only thing set in Ink at weight 600; timezone, relative time and recurrence stay in quiet ink around it.",
+        "section": "typography"
+      },
+      {
+        "name": "The Pulled Card Rule",
+        "body": "Only what sits in the panel pane is lifted. The catalogue itself never casts a shadow. A card entering the panel rises 8px over 220ms on `cubic-bezier(0.16, 1, 0.3, 1)`; it does not fade.",
+        "section": "elevation"
+      }
+    ],
+    "dos": [
+      "Do lead every row and every record card with the reminder's ID in Courier Prime.",
+      "Do give every new group a guide tab with its name and count, and give every status an icon and a word.",
+      "Do keep one primary button per group of actions, in Stamp-pad Blue (or Shell Ink on the bar).",
+      "Do set the destructive action apart from its neighbours and confirm it inside the card, not in a dialog.",
+      "Do write every due time with its timezone, and let long text wrap; rows clamp at three lines, details show everything.",
+      "Do take colours, sizes, radii and spacing from the custom properties on `:root`.",
+      "Do keep motion to colour transitions (150ms) and the 8px card rise (220ms), and remove both under `prefers-reduced-motion`."
+    ],
+    "donts": [
+      "Don't use Courier Prime for anything except reminder IDs and exact UTC instants.",
+      "Don't use the guide tints as text colours, row fills or borders, and don't add a fifth tint without a fifth group.",
+      "Don't use Index Red for errors or actions, and don't draw the red rule anywhere but under a card head.",
+      "Don't put a shadow on the list, the bar, banners or buttons.",
+      "Don't let a card grow past the window beside a long list, and don't leave a message on screen once the record or the entries it describes have changed.",
+      "Don't signal a state by colour alone.",
+      "Don't add textures, drawer handles or other props of a physical catalogue; the world is lent as type, palette, density and one signature.",
+      "Don't give a control a boundary lighter than Edge. The hairline tokens (line, accent-line, danger-line, warn-line, ok-line) are for dividers and message boxes; a field, select, chip or outlined button needs 3:1 against its fill and its surroundings, and npm run test:e2e measures it.",
+      "Don't use the browser's date or time controls, and don't show a date or time in any form but YYYY-MM-DD and 24-hour HH:MM."
+    ]
+  }
+}
