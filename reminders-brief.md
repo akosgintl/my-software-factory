@@ -1,40 +1,67 @@
 # Reminders brief (agreed behaviour)
 
-What the chat reminder service is and must keep doing. How to operate it: [reminders-guide.md](reminders-guide.md). Built by factory task T-001; changes to anything here go through the active development queue in [FACTORY.md](FACTORY.md).
+What the chat reminder service is and must keep doing. How to operate it: [reminders-guide.md](reminders-guide.md). Built by factory task T-001 (text) and extended by T-002 (scheduled and recurring reminders, checker); changes to anything here go through the active development queue in [FACTORY.md](FACTORY.md).
 
 ## Purpose and scope
 
 - The user adds, lists, modifies and removes reminders in ordinary chat, in any conversation on this project, including fresh ones.
-- Text only. No scheduling, no automatic delivery, no notifications, no browser app, no database. A request for timed delivery gets the explanation that the service stores text only and does not schedule a message.
+- A reminder is unscheduled text, a one-off at a date and time, or recurring. Due reminders appear as readable chat messages, each naming its reminder ID, in one identified user-visible chat, and their saved state advances.
+- One reminder checker, created through the harness's native scheduling and recorded in FACTORY.md "Reminder checker", delivers all due reminders. It is separate from the factory dispatcher. No per-reminder jobs, coded timers, launchers, polling daemons or external schedules; no notifications outside that chat; no browser app; no database.
 - Plain project files with explicit loading. No engine instruction file (such as CLAUDE.md) is created or required: a fresh conversation is given the absolute project path and the starting request "Read FACTORY.md and reminders-guide.md in this project, then list my reminders."
 
 ## Files
 
-- `C:\_Work\my-software-factory\REMINDERS.md` — canonical store.
-- `C:\_Work\my-software-factory\reminders-guide.md` — operating instructions, reread by every service conversation.
+- `C:\_Work\my-software-factory\REMINDERS.md` — canonical store, the sole writable store of reminders and schedule state.
+- `C:\_Work\my-software-factory\reminders-guide.md` — operating instructions, reread by every service conversation and every checker tick.
 - `C:\_Work\my-software-factory\reminders-brief.md` — this file.
-- `C:\_Work\my-software-factory\reminders.sh` — the only reader/writer; implements the shared write protocol.
+- `C:\_Work\my-software-factory\reminders.sh` — the only reader/writer; implements the shared write protocol and the schedule logic.
+- `C:\_Work\my-software-factory\reminders-time.ps1` — timezone calculations for the script (named IANA zones via Windows' timezone data; holds no state).
 
 ## Records
 
-- One line per reminder: `- R-NNNN: <text>`. Each reminder has a stable unique ID and its text.
-- Editing or deleting one record never changes another record or any ID.
+- One line per reminder: `- R-NNNN: <text>`. Each reminder has a stable unique ID and its text. A scheduled reminder has one schedule line directly beneath it: `  ~ R-NNNN | state=… | tz=… | rule=… | next=… | local=… | pending=… | prun=… | pmarked=… | pnote=… | last=… | acked=…`.
+- Schedule state: active or completed; named IANA timezone; recurrence rule; resolved next due instant (UTC) and its local reading; the pending occurrence with the check's run handle and time; the last delivered occurrence and its acknowledgement time.
+- A reminder without a schedule line is unscheduled and is never due. Records saved before scheduling existed stay valid unchanged.
+- Editing, scheduling or deleting one record never changes another record or any ID.
 - IDs are never reused: `Next ID` in the store only increases, so an old request naming a removed ID cannot hit a different reminder.
 - The store on disk is the only source of truth. Cached conversation history is not the store; every request rereads the guide and the current records before answering or writing.
 
 ## Chat behaviour
 
-- Add saves the requested text and returns its ID and text.
-- List rereads the file and shows current IDs and texts, or clearly states that it is empty.
-- Modify identifies the record, preserves its ID and saves the requested text change.
-- Remove deletes only the identified record and confirms its absence.
+- Add saves the requested text, and the schedule when one was asked for, and returns the ID, text and saved schedule.
+- List rereads the file and shows current IDs and texts with their schedule state, or clearly states that it is empty.
+- Modify identifies the record, preserves its ID and saves the requested change to its text, or to its date, time, timezone or recurrence.
+- Remove deletes only the identified record with its schedule and confirms its absence.
+- Every scheduling reply confirms the saved date, local time, timezone and recurrence.
+- Timezone comes from the user's request or a default the user confirmed (saved in the store); otherwise the service asks. The host's timezone is never adopted.
+- Relative dates are resolved against the current date in the reminder's timezone. Ambiguous dates, times or recurrence are asked about, not guessed. Times not in the future are refused.
 - Targets may be named by ID or in ordinary language. When the target or the requested change is ambiguous, the service asks; it never rewrites several records to guess.
+
+## Schedule semantics
+
+- One-off: at a local date and time in its timezone. It becomes completed only after its occurrence is delivered and acknowledged.
+- Calendar rules — daily, weekly on named weekdays, monthly on a day of the month (last day in shorter months) — keep their local time in the named timezone across clock changes.
+- Duration rules — every N minutes, hours or 24-hour days — advance by exactly that duration.
+- The next occurrence is always calculated from the saved scheduled occurrence, never from the time the check happened to run.
+- After downtime: one catch-up message per overdue reminder, labelled late. A recurring reminder then advances to its first future occurrence; missed occurrences are not replayed.
+- Clock changes: a local time that does not exist is moved forward by the gap; a local time that happens twice fires at its first passage only. The service discloses this when it applies. Nothing is sent twice because of a clock change.
+- Not supported (the service says so and offers the nearest rule): yearly, every-other-week/month calendar rules, nth-weekday-of-month, end dates or repeat counts, seconds.
+
+## Delivery
+
+- Destination: the chat recorded in FACTORY.md "Reminder checker". The checker's reply in that chat is the delivery; a file, log, command output or successful run is not.
+- Each check: select due occurrences under the shared lock and mark them pending (the recheck that the record exists, is active and is due is part of that step); write the messages; only then acknowledge each one, which rechecks under the lock that the record still exists, is active and still has that pending occurrence before completing or advancing it. Nothing due → the check stays silent.
+- Edits and removals affect the next check; a superseded or removed occurrence is not sent, and an acknowledgement for one is refused.
+- Overlapping checks cannot both send an occurrence.
+- A pending occurrence that was never acknowledged is delivery-uncertain: reported once, never resent automatically, reconciled by acknowledging it (it was seen) or releasing it (it was not). Delivery is therefore at most once per occurrence automatically, not exactly once: an interruption between the message and the acknowledgement cannot be told apart from one before the message.
+- Delivery happens only while the checker's owning session is open and idle; nothing is promised while it is busy, closed, expired, or the host is asleep or off.
 
 ## Shared writes
 
-- One shared write lock (`.reminders.lock`, created atomically with mkdir) used by every writer through `reminders.sh`.
+- One shared write lock (`.reminders.lock`, created atomically with mkdir) used by every writer — chat and checker — through `reminders.sh`.
 - Under the lock: reread the latest records, change only the intended record, replace the file atomically (temp file + rename). Atomic replacement alone does not prevent lost updates; the lock does.
-- The lock and temp file are released on success, failure and interruption. A writer killed before it can release leaves a lock that `reminders.sh recover` clears only after confirming the recorded owner process is gone; the store is then either fully updated or untouched.
+- The lock is released before a message is written and before any waiting; it is reacquired and the store reread to apply a confirmed result.
+- The lock and temp files are released on success, failure and interruption. A writer killed before it can release leaves a lock that `reminders.sh recover` clears only after confirming the recorded owner process is gone; the store is then either fully updated or untouched.
 
 ## Routing
 
