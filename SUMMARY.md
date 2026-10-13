@@ -1,145 +1,157 @@
-# Session summary — part 3: scheduled and recurring reminders (in progress)
+# Session summary — part 4: T-002 completed, project instructions and Impeccable skill
 
 Date: 2026-10-13. Project: `C:\_Work\my-software-factory`. Session: `my-software-factory-c8` (Claude Code in VS Code).
 
-This covers everything from the "Queue one task titled Add Scheduled and Recurring Reminders" request to the request for this summary. Earlier parts are the previous versions of this file in git.
+This covers everything from the "Prepare this factory with standing project instructions and a project-local Impeccable design skill" request to the request for this summary. It also records the live reminder deliveries that happened after the part 3 summary was written, so that nothing falls between the two. Earlier parts are the previous versions of this file in git.
 
-## Status
+## Outcome
 
-**T-002 is not complete.** It is claimed and in its last phase: live delivery checks in this chat. The worker's files and isolated checks are done, the reminder checker job exists, and four disposable test reminders were set up. When this summary was requested, no test reminder had come due yet, so no live delivery has been observed.
+- **T-002 (scheduled and recurring reminders) is verified complete.** All live delivery checks were observed in this chat.
+- **The maintenance upgrade is applied and verified.** The project has a standing instruction file (`CLAUDE.md`) and a project-local Impeccable design skill (4.5.2). A fresh worker, dispatched through the real queue, found and read both from files alone.
+- The factory is enabled with one dispatcher and one reminder checker. The queue has no unchecked work and no reminders are saved.
 
-## State at the start
+## Carried over from part 3: live deliveries before this request
 
-- Factory enabled: dispatcher job `35e2fcfd`, every minute, pickup enabled, no active assignment.
-- Queue: T-001 checked, nothing unchecked.
-- Text-only reminder service from T-001 in place; store empty, next ID `R-0003`.
-- Two idle dispatcher ticks fired between the part 2 summary and the intake request.
+The part 3 summary was written before any test reminder came due. These happened afterwards, before the maintenance request:
+
+- **13:02** — checker tick delivered `R-0004` (recurring, every 2 minutes). After `ack` it advanced by exactly 120 s to 13:04:38.
+- **13:03** — checker tick delivered `R-0003` (one-off). After `ack` it was saved as completed.
+- **13:04** — checker tick found nothing due. Nothing was sent for the old 13:04 time of `R-0005` (rescheduled) or for `R-0006` (removed).
+- **13:05** — checker tick delivered `R-0004` a second time; it advanced by 120 s again, to 13:06:38.
+- **13:06** — a dispatcher tick, acting as controller, removed `R-0004` because the recurring check was done.
+- The user asked whether the last reminder was in `SUMMARY.md`. Answer given: no; the summary predates the deliveries, and would be updated once T-002 completed.
+- 13:06 and 13:07 checker ticks found nothing due. Dispatcher ticks in this period found T-002 still claimed and launched nothing.
 
 ## What was asked
 
-1. **Intake request.** Queue one task, "Add Scheduled and Recurring Reminders", with the supplied brief. Intake only.
+1. **Maintenance request.** Apply directly, as controller maintenance between assignments and not as a queued task:
+   - pause pickup, let active work finish;
+   - save eight standing rules in a project instruction file;
+   - install the Impeccable design skill at project scope;
+   - update `FACTORY.md`, the dispatcher prompt and the worker template;
+   - verify with one harmless inspection task through the real dispatcher.
 2. **This summary.**
 
 ## What was done, in order
 
-### Intake
+### Reserving maintenance (13:07)
 
-1. Reread `FACTORY.md` and `TODO.md`: TODO intake open, no GitHub route, no active claim, no unfinished or matching entry. The prerequisite service files exist.
-2. Saved the brief to a scratch file without the tags and intake instructions, with one added first line: `Project path: C:\_Work\my-software-factory`.
-3. Under the queue lock, rechecked intake and duplicates, then inserted `T-002: Add Scheduled and Recurring Reminders` at the end of the unchecked entries, above the checked T-001 (`TODO.md` line 13, brief on lines 14–61; T-001 moved down to line 63, unchanged).
-4. Diffed the saved entry against the brief: identical.
-5. Reported "queued" with the reference and stopped. Pickup and the dispatcher job were not touched.
+1. Confirmed the prerequisites: dispatcher job `35e2fcfd` and reminder checker job `6ffb2e2a` both present.
+2. Paused pickup in `FACTORY.md`, recording the prior state (enabled) and the reason. The harness has no native paused state for a job, so the pickup flag is the pause; the job kept its one-minute cadence.
+3. Did not start the upgrade, because T-002 was still claimed with one live check outstanding (`R-0005` at 13:08). Ended the turn so the checker could fire.
+4. Noted two things for later: `node`, `npm` and `npx` were not found, and a stray folder with a garbled name was in the project root.
 
-### Dispatch
+### Finishing T-002 (13:08–13:09)
 
-6. The next scheduled tick fired by itself. Under the lock the controller confirmed pickup was enabled and nothing was claimed, took T-002 and wrote the active-assignment pointer. Host clock at that point: 12:42 local (+02:00), Windows zone "Central Europe Standard Time".
-7. Reported "picked up" and "worker starting", and said the controller would create the checker and run the delivery checks itself afterwards.
-8. Launched one fresh foreground worker (agent id `a45fd1ae952df36d6`). Its prompt gave the project path, told it to read `FACTORY.md` and the full T-002 entry from `TODO.md`, and split the work:
-   - worker: store format, script, brief, guide, `FACTORY.md` documentation, and every check that needs no real scheduled run or chat delivery;
-   - controller: create the checker job, live checks 1–3, the one-dispatcher/one-checker verification, cleanup.
-   - The worker was told not to call any scheduling tool, not to commit, and not to adopt the host timezone silently.
-9. The worker ran for about 17 minutes (30 tool calls). No tick fired during that time.
+5. The 13:08 checker tick delivered `R-0005` at its new time only. After `ack` it was saved as completed.
+6. The next dispatcher tick completed T-002:
+   - removed the remaining test reminders (`R-0003`, `R-0005`); the store is empty, next ID `R-0007`;
+   - CronList showed exactly one dispatcher and one checker;
+   - under the queue lock, marked T-002 `- [x]` and moved it with its whole brief to the end of `TODO.md`, below T-001;
+   - cleared the active-assignment pointer.
+7. Reported "verified complete". Pickup stayed paused, so nothing new was selected.
 
-### What the worker built
+### Maintenance
 
-- `reminders.sh` — extended. New commands: `schedule`, `unschedule`, `resolve`, `now`, `tz`, `due`, `ack`, `retry`; `add` accepts a schedule.
-- `reminders-time.ps1` — new. Timezone maths helper called by the script; holds no state.
-- `REMINDERS.md` — header rewritten: new format description and `Default timezone: (not confirmed)`. No records were added and no real ID was used.
-- `reminders-guide.md`, `reminders-brief.md` — rewritten for scheduling, the checker tick, reconciliation and limits.
-- `FACTORY.md` — "Reminder service" extended, a new "Reminder checker" section added (identity, saved prompt, paths, destination, cadence, lifetime, controls, recovery), and one sentence added to the dispatcher's renewal bullet.
+8. **Inspection.**
+   - No Node.js anywhere on the machine; winget available.
+   - The project is its own git repository with no parent repository.
+   - The stray folder was empty. It was created at 13:05:22, the same second as a reminder `ack`.
+9. **Documentation read:**
+   - the Impeccable installation instructions;
+   - the Node.js release table (v24 and v22 are LTS);
+   - the Next.js installation page (Next.js 16.4, minimum Node.js 20.9);
+   - Claude Code's pages on skills and on project instruction files.
+10. **Instruction filename.** Chose `CLAUDE.md`. Claude Code loads it from the project root at session start, and reads `AGENTS.md` only when no `CLAUDE.md` exists.
+11. **Node.js.** Installed Node.js 24.20.0 LTS (npm 11.19.0) machine-wide with winget, at `C:\Program Files\nodejs`. Shells that were already open do not have it on their path.
+12. **Stray folder.** Removed it (it was empty).
+13. **Impeccable.**
+    - Checked the package (`impeccable@4.5.2`) and the installer's options first.
+    - Ran `npx impeccable install --providers=claude --scope=project --no-hooks`.
+    - Result: skill at `.claude\skills\impeccable\` (entry point `SKILL.md`, 42 procedure files under `reference\`, launcher under `scripts\`), engine v0.1.14, and four helper agents under `.claude\agents\`.
+    - Hooks were skipped; they are optional and would write `.claude\settings.local.json`.
+14. **`CLAUDE.md`.** Created with the eight standing rules (web stack, SQLite, Impeccable for interface work, fresh state, routing, native scheduling, feedback, checks), links to `FACTORY.md`, `reminders-guide.md`, `reminders-brief.md` and the skill entry point, and two boundaries.
+15. **`FACTORY.md`.** Updated:
+    - header and Setup now name `CLAUDE.md` and the skill;
+    - new dispatcher prompt saved, with a note that a running job's prompt cannot be edited in place;
+    - Dispatch step 3 now has a fixed worker template (project path, read `CLAUDE.md` and `FACTORY.md`, read the skill for interface tasks, complete brief, role line, return-to-controller line);
+    - Workers section names `CLAUDE.md`;
+    - new "Impeccable design skill" section: paths, version, install command, hooks, loading route, Node tooling, update steps.
+16. **A slip, repaired.** The first edit of `FACTORY.md` dropped the backslashes from the Windows paths in the inserted lines and duplicated two lines in the checker section. Both were fixed and checked before anything used the file.
+17. **Dispatcher job.** Deleted job `35e2fcfd` and created job `d89d2b53` with the new prompt at the same `* * * * *` cadence. Recorded the new id in State. CronList: exactly `6ffb2e2a` (checker, untouched) and `d89d2b53`.
 
-**Record format.** The original line is unchanged; a scheduled reminder has one extra line beneath it:
+    New prompt:
+    `Factory dispatcher tick. Read CLAUDE.md and FACTORY.md in C:\_Work\my-software-factory and use them to operate this factory: follow FACTORY.md "Dispatch" exactly, with one active run only (launch nothing if an assignment or maintenance is recorded or pickup is paused), give each worker the project path, its complete brief and the guidance files in the worker template, report to me in this chat per "Feedback", and stay silent on an idle or skipped tick.`
 
-    - R-0007: call the dentist
-      ~ R-0007 | state=active | tz=Europe/Budapest | rule=weekly:MO@09:00 | next=2026-10-19T07:00:00Z | local=... | pending=- | prun=- | pmarked=- | pnote=- | last=- | acked=-
+### Discovery trial
 
-A record without the `~` line is unscheduled and never due.
-
-**Schedules supported.** One-off (`--at`), duration (`every:N` minutes, hours or days) and calendar (`daily@HH:MM`, `weekly:MO,WE@HH:MM`, `monthly:D@HH:MM`). Refused: past times, unknown zones, seconds, yearly, nth-weekday, end dates or counts.
-
-**Timezone.** Every scheduled reminder carries an IANA zone. The service must ask the user unless a confirmed default is saved; none is. The host's timezone is never used. Git Bash on this host has no timezone database, so the helper uses Windows PowerShell 5.1 with Windows' own zone data.
-
-**Delivery flow.**
-1. `due`, under the shared lock, selects each active record whose time has arrived, marks that occurrence pending and prints the messages. Nothing due prints exactly `NOTHING_DUE`.
-2. The controller writes the messages in chat. That reply is the delivery.
-3. `ack <ID> <occurrence>`, under the lock, confirms the record still has that pending occurrence, then completes a one-off or advances a recurring reminder to its first future occurrence, calculated from the saved occurrence.
-
-**Semantics.**
-- Catch-up: one message per overdue reminder, labelled late when 5 minutes or more overdue; no replay of missed occurrences.
-- Calendar rules keep their local time across clock changes. Duration rules advance by exact duration, so `every:1d` shifts an hour on the local clock.
-- A local time that does not exist (spring) moves forward by the gap. A repeated local time (autumn) fires at its first passage only.
-- An occurrence left pending for over two minutes is reported once as "delivery uncertain" and never resent automatically. It is settled with `ack` or, on the user's word, `retry`.
-- An edit or removal clears a pending mark; a later `ack` is refused.
-
-### Worker's checks (as it reported them, all on scratch copies with an injected clock)
-
-- **Overdue catch-up — passed.** After a four-day jump, one `due` printed one message each for three overdue records. A second `due` before any ack printed `NOTHING_DUE`. After ack, the one-off was completed and both recurring records advanced to the correct first future occurrence.
-- **Clock changes, Europe/Budapest — passed.** `daily@02:30` fired once on the autumn change day and moved to 03:30 on the spring change day; `daily@09:00` kept its local time; `monthly:31` clamped to shorter months.
-- **Edit and remove, isolated — passed.** A rescheduled one-off and a removed one did not appear at the old time.
-- **Uncertain delivery — passed.** Silent at 60 s, reported once at 150 s, silent after; `retry` released it for one late send.
-- **Overlap and write protection — passed.** Eight simultaneous `due` runs over six due records delivered each occurrence exactly once. Concurrent acks, adds, a modify and a remove lost nothing. A live lock blocked `due` and `ack` without changing the store.
-- **Backwards compatibility — passed.** Unscheduled records kept their IDs and were never selected.
-- **Real clock on a scratch copy — passed.** An `every:1m` record was delivered and advanced by 60 s.
-
-The test clock variable works only on a scratch directory; it is refused against the real store.
-
-### Controller steps after the handoff
-
-10. Inspected the result: files present, `FACTORY.md` State section intact, checker section complete with placeholders, real store empty with next ID `R-0003`, `due` on the real store gave `NOTHING_DUE`, no leftover locks.
-11. Created the reminder checker with CronCreate: job `6ffb2e2a`, cron `* * * * *`, using the worker's saved prompt.
-12. Filled the placeholders in `FACTORY.md`: `Checker job: 6ffb2e2a (created 2026-10-13, expires 2026-10-20)`.
-13. Updated the active-assignment pointer to "controller live delivery checks".
-14. At 13:00 local, added the disposable test reminders, zone named as Europe/Budapest for the tests only:
-    - `R-0003` T002-LIVE-ONEOFF, one-off, due 13:03.
-    - `R-0004` T002-LIVE-RECUR, every 2 minutes, first due 13:02:38.
-    - `R-0005` T002-LIVE-EDIT, one-off at 13:04, then rescheduled to 13:08.
-    - `R-0006` T002-LIVE-REMOVE, one-off at 13:04, then removed.
-15. Reported "waiting" and ended the turn so ticks could fire.
-16. Two dispatcher ticks fired (13:00:59, 13:01:10). Each found T-002 still claimed and launched nothing. CronList showed exactly two jobs: `35e2fcfd` and `6ffb2e2a`.
-17. The first checker tick fired by itself at 13:01:19, read the store, ran `due`, got `NOTHING_DUE` and stayed quiet.
-18. The summary request arrived before any test reminder was due. This file was written, replacing the part 2 text.
+18. Queued one disposable inspection task, `T-TRIAL-d1sc0v`, under the queue lock, at the end of the unchecked entries. A first attempt inserted nothing because of a path-escaping problem in the helper command; the second attempt inserted it correctly.
+19. Released maintenance, set pickup to enabled and ended the turn.
+20. One checker tick fired first (nothing due). Then the new dispatcher tick fired by itself, read `CLAUDE.md` and `FACTORY.md`, claimed the trial and launched a fresh foreground worker (agent id `acc53a04c3c70ff1d`) using only the template lines and the saved brief. No rules and no skill path were passed.
+21. The worker ran for about 30 seconds and reported, with file and line for each answer:
+    - instruction file: `CLAUDE.md`, loaded at session start and named for an explicit read;
+    - its brief: `T-TRIAL-d1sc0v` in `TODO.md`;
+    - stack: Node.js with Next.js; database: SQLite when introduced;
+    - live store: `REMINDERS.md`, changed only through `reminders.sh`;
+    - reminder checker: job `6ffb2e2a`, every minute, delivering to this chat;
+    - Impeccable: entry point `.claude\skills\impeccable\SKILL.md`, version 4.5.2, loaded by reading files by path;
+    - procedure: it chose `reference\critique.md`, read all 806 lines, and quoted its first heading (`### Purpose`) and one instruction.
+22. Controller comparison: the answers match the files, both quoted lines are in `critique.md` at lines 1 and 8, and `git status` was unchanged by the worker.
+23. Under the lock, marked the trial `- [x]` and moved it with its brief to the end of `TODO.md`, below T-001 and T-002. Cleared the pointer and set pickup to plain enabled, its state before maintenance.
+24. Reported "verified complete" for the trial and the upgrade.
+25. Further ticks (checker and dispatcher) found nothing to do.
+26. Wrote this file, replacing the part 3 text.
 
 ## Files
 
 | File | State |
 |---|---|
-| `reminders.sh` | Modified. |
-| `reminders-time.ps1` | New, untracked. |
-| `REMINDERS.md` | Modified: new header, three test records present. |
-| `reminders-guide.md`, `reminders-brief.md` | Modified. |
-| `FACTORY.md` | Modified: checker section, checker id, active-assignment pointer. |
-| `TODO.md` | Modified: T-002 added, still unchecked. |
+| `CLAUDE.md` | New, untracked. |
+| `.claude\skills\impeccable\` | New, untracked. About 21 MB. |
+| `.claude\agents\impeccable-*.md` | New, untracked. Four files. |
+| `FACTORY.md` | Modified. |
+| `TODO.md` | Modified: T-002 checked and moved; trial entry added, checked, at the end. |
+| `REMINDERS.md` | Modified: test records removed, next ID `R-0007`. |
 | `SUMMARY.md` | Modified: this file. |
+
+Outside the project: Node.js 24.20.0 at `C:\Program Files\nodejs`.
 
 Nothing was committed in this part.
 
 ## Current state
 
-- Pickup: enabled. Dispatcher job `35e2fcfd`. Checker job `6ffb2e2a`. Both every minute, both expire 2026-10-20.
-- Active assignment: T-002, controller live checks.
-- Store: `R-0003`, `R-0004`, `R-0005` are test records; `R-0006` is removed. Next ID `R-0007`.
-- Default timezone: not confirmed.
+- Pickup: enabled. Active assignment: none.
+- Dispatcher job `d89d2b53`; reminder checker job `6ffb2e2a`. Both every minute, both expire 2026-10-20.
+- Queue: T-001, T-002 and `T-TRIAL-d1sc0v` all checked; nothing unchecked.
+- Reminders: none saved. Default timezone: not confirmed.
 
-## Still to do for T-002
+## Observed and not observed
 
-1. Observe the one-off message for `R-0003`, its completed state, and no resend.
-2. Observe two deliveries of `R-0004`, each advancing by 120 s.
-3. Confirm nothing arrived for the old 13:04 time of `R-0005` or for `R-0006`; only `R-0005` at its new time.
-4. Remove the test records, confirm exactly one dispatcher and one checker, check T-002 off, clear the pointer.
+**Observed**
 
-Writing this summary kept the session busy, so the first test messages will arrive late and may be labelled as catch-up. That delays the checks but does not invalidate them.
+- All T-002 live checks: one-off delivered once and completed; recurring delivered twice, 120 s apart; edited reminder sent only at its new time; removed reminder never sent.
+- Automatic pickup by the new dispatcher job with the new prompt.
+- A fresh worker finding the instruction file, stack, store, checker and skill from files alone.
+- A completed entry moved past other entries to the end of the queue (first time there were other entries).
+- Exactly one dispatcher and one checker after the swap.
 
-## Not yet verified
+**Not observed**
 
-- Any live delivery in this chat (checks 1–3).
-- The fresh-conversation path for scheduled reminders.
-- From earlier parts: a tick coming due during a run, and behaviour across expiry, sleep and restart.
+- Native skill discovery by a worker. The trial worker confirmed `impeccable` was not in its skill list. While this summary was being written, the controller session picked the skill up by itself (`impeccable` appeared in its skill list), so native discovery now works in the controlling chat; a worker's list has not been rechecked.
+- The skill's own launcher (`scripts\impeccable.cmd`). The worker skipped it because the skill says it may download a binary on first run.
+- Whether a new session loads `CLAUDE.md` automatically. The trial worker was told to read it.
+- A tick coming due during a run, and behaviour across expiry, sleep and restart.
+
+## Needs the user
+
+- Nothing is needed for the skill in the controlling chat any more: `/impeccable` became available there without `/reload-skills`. Do not restart the session without reason; that ends both scheduled jobs.
+- Confirm a timezone the first time a reminder is scheduled.
+- The checked trial entry is still at the end of `TODO.md`; it can be removed on request.
 
 ## Things to know
 
-- Not exactly-once. A tick interrupted between writing the message and `ack` leaves the occurrence uncertain; it is held, not resent.
-- The checker shares this session with the dispatcher and fires only while the session is idle. While a worker runs, or the session is closed, or the machine sleeps, nothing is delivered; each overdue reminder arrives once afterwards.
-- Both jobs are session-only and expire after seven days. Restart with the factory starting request.
-- Every checker tick is a model turn, including when nothing is due. With two jobs, idle ticks now arrive twice a minute.
-- PowerShell on this host intermittently starts in a restricted mode and fails; the script retries up to five times and exits without writing if it still fails.
-- Git warns that line endings will be converted to CRLF. A CRLF checkout of `reminders.sh` would break it under bash.
+- A session cron job's prompt cannot be edited. Changing it means deleting and recreating the job, which gives it a new id.
+- The stray garbled-name folder was probably created by the PowerShell time helper. If it reappears, that is a defect to queue.
+- No web app, reminder migration, `PRODUCT.md` or `DESIGN.md` was created by this upgrade.
+- Both jobs are session-only and expire after seven days. Restart with: "Read FACTORY.md in C:\_Work\my-software-factory and use it to operate this factory."
+- Idle ticks still post a "." in chat, now from two jobs.

@@ -16,7 +16,3 @@ Default timezone: (not confirmed)
 
 ## Records
 
-- R-0003: T002-LIVE-ONEOFF
-  ~ R-0003 | state=completed | tz=Europe/Budapest | rule=once | next=- | local=Tue 2026-10-13 13:03 +02:00 | pending=- | prun=- | pmarked=- | pnote=- | last=2026-10-13T11:03:00Z | acked=2026-10-13T11:03:21Z
-- R-0005: T002-LIVE-EDIT
-  ~ R-0005 | state=active | tz=Europe/Budapest | rule=once | next=2026-10-13T11:08:00Z | local=Tue 2026-10-13 13:08 +02:00 | pending=- | prun=- | pmarked=- | pnote=- | last=- | acked=-

@@ -1,6 +1,6 @@
 # FACTORY
 
-Instruction entry point for this factory. Fresh controller starting request:
+Instruction entry point for this factory. Standing project rules: [CLAUDE.md](CLAUDE.md) (the project instruction file; read it together with this file). Fresh controller starting request:
 
 > Read FACTORY.md in C:\_Work\my-software-factory and use it to operate this factory.
 
@@ -9,20 +9,23 @@ Instruction entry point for this factory. Fresh controller starting request:
 - Project: `C:\_Work\my-software-factory`
 - Active queue: `C:\_Work\my-software-factory\TODO.md` (TODO intake: **open**). No GitHub intake.
 - Engine: Claude Code session scheduler (CronCreate / CronList / CronDelete) + Agent tool workers.
+- Project instruction file: `C:\_Work\my-software-factory\CLAUDE.md`. Claude Code loads `CLAUDE.md` from the project root at session start; a session already running when it changes does not reload it, so the dispatcher prompt and the worker template also name it for an explicit read.
+- Design skill: Impeccable, project scope — see "Impeccable design skill".
 - Feedback destination: the chat of the Claude Code session that owns the dispatcher job (VS Code, session `my-software-factory-c8`).
 
 ## State
 
 - Pickup: **enabled**
-- Dispatcher job: `35e2fcfd` (created 2026-10-13, expires 2026-10-20), owned by session `my-software-factory-c8`
-- Active assignment: controller `my-software-factory-c8` (job `35e2fcfd`), task `T-002`, worker `a45fd1ae952df36d6` returned (files + isolated checks done), phase: controller live delivery checks 1-3 with disposable reminders labelled T002-LIVE via checker job `6ffb2e2a`; dispatcher ticks launch nothing until these are inspected and cleaned up
+- Dispatcher job: `d89d2b53` (created 2026-10-13, expires 2026-10-20), owned by session `my-software-factory-c8`
+- Active assignment: none
 
 `Active assignment` is a recovery pointer only (controller session, task id, worker handle, phase) — never a second queue.
 
 ## Native automation
 
 - One recurring session cron job, `* * * * *` (every 60 s), prompt:
-  `Factory dispatcher tick. Read FACTORY.md in C:\_Work\my-software-factory and use it to operate this factory: follow "Dispatch" exactly, report to me in this chat per "Feedback", and stay silent on an idle or skipped tick.`
+  `Factory dispatcher tick. Read CLAUDE.md and FACTORY.md in C:\_Work\my-software-factory and use them to operate this factory: follow FACTORY.md "Dispatch" exactly, with one active run only (launch nothing if an assignment or maintenance is recorded or pickup is paused), give each worker the project path, its complete brief and the guidance files in the worker template, report to me in this chat per "Feedback", and stay silent on an idle or skipped tick.`
+- Changing the prompt: a session cron job cannot be edited in place. Between assignments, CronDelete the old job, CronCreate with the new prompt at the same cadence, confirm with CronList that exactly one dispatcher exists, and record the new id in State. Editing this file alone does not change the running job.
 - Run controls / non-overlap: the job lives in one session and fires only while that session is idle, so a tick cannot start while a dispatcher turn is running. Workers are launched in the foreground (`run_in_background: false`), keeping the dispatcher turn — the logical run — active until the worker's terminal result. The `Active assignment` pointer is the second guard: a tick that finds one never launches anything.
 - Lifetime: session-only (not on disk) and auto-expires 7 days after creation. It stops when the session/VS Code window closes, the host sleeps or restarts. Nothing fires while the machine is off; missed ticks are not replayed.
 - Renewal / restart: in a Claude Code session opened on this project, send the starting request above. The controller runs CronList; if no dispatcher job exists it reconciles `Active assignment` (see Recovery), creates the job with the prompt above, and records the new id and creation date here. Never create a second job. The reminder checker is a separate job with its own record and controls: restore it the same way from "Reminder checker".
@@ -57,7 +60,14 @@ Intake appends at the end of the unchecked entries only while TODO intake is ope
 
 1. Reread State and TODO.md. If an `Active assignment` exists: when its controller is this session and its worker is still running, continue that owner and launch nothing; otherwise go to Recovery. If pickup is paused, select nothing and end.
 2. No assignment and pickup enabled: under the write protocol, take the first `- [ ]` entry and write the `Active assignment` pointer. Report "picked up".
-3. Launch one fresh worker (Agent tool, foreground) with: the absolute project path, the instruction to read FACTORY.md there, the complete brief and checks, and the role line: "You are already assigned this task. Execute it directly; do not enqueue or dispatch it again." Record its handle in the pointer. Report "worker started".
+3. Launch one fresh worker (Agent tool, foreground) from the worker template below. Record its handle in the pointer. Report "worker started".
+   Worker template — pass exactly these, nothing rewritten from memory:
+   - the absolute project path `C:\_Work\my-software-factory`;
+   - "Read `C:\_Work\my-software-factory\CLAUDE.md` and `C:\_Work\my-software-factory\FACTORY.md` in full before acting, and any file they tell you to read for this kind of work.";
+   - for a task that builds or reviews an interface: "Read `C:\_Work\my-software-factory\.claude\skills\impeccable\SKILL.md` and the relevant procedure under its `reference\` folder first.";
+   - the complete brief and checks from the TODO.md entry (and where it is in TODO.md);
+   - the role line: "You are already assigned this task. Execute it directly; do not enqueue or dispatch it again.";
+   - "Return your result to the controller. Do not edit TODO.md, the State section of FACTORY.md or any scheduled job, and do not commit."
 4. On the worker's terminal result, run the checks yourself. A launch receipt, partial output or a self-written DONE file is not completion.
 5. Failed, interrupted or blocked: leave the entry unchecked and the pointer in place, inspect existing effects, report the blocker. Never duplicate, skip or mark unfinished work complete.
 6. Verified success: under the write protocol, reread TODO.md, change that entry to `- [x]` and move it with its whole indented brief to the end of the file; clear the pointer. Report "verified complete". If pickup is still enabled, go to 2.
@@ -79,7 +89,7 @@ The controller reports in the feedback destination: queued, picked up, worker st
 
 ## Workers
 
-Read this file and your full assignment from the supplied absolute path; do not rely on conversation history. Do not edit TODO.md, State, claims or the dispatcher job. When updating project guidance, preserve them. A task that adds a service records its operating controls in a new section of this file. Keep secrets out of this file.
+Read [CLAUDE.md](CLAUDE.md), this file and your full assignment from the supplied absolute path; do not rely on conversation history. Do not edit TODO.md, State, claims or the dispatcher job. When updating project guidance, preserve them. A task that adds a service records its operating controls in a new section of this file. Keep secrets out of this file.
 
 ## Reminder service
 
@@ -124,3 +134,15 @@ Recovery:
 - Then `reminders.sh list`. "delivery in progress" older than two minutes, or "DELIVERY UNCERTAIN", means a tick was interrupted between writing a message and acknowledging it. It is not resent automatically: reconcile it per reminders-guide.md "Reconciling an uncertain delivery" (`ack` if the message is visible in the chat or the user saw it, `retry` only if the user did not get it).
 - A stuck write lock: `bash "C:/_Work/my-software-factory/reminders.sh" recover` (reminders-guide.md "Recovery").
 - Crash window: between the reply being written and its `ack`, the store cannot prove the message appeared. Such an occurrence is held, reported once as uncertain and never resent blindly, so delivery is at most once per occurrence automatically — not exactly once.
+
+## Impeccable design skill
+
+Project-local design skill for interface work (installed by controller maintenance, 2026-10-13). Standing rule 3 in [CLAUDE.md](CLAUDE.md) requires it.
+
+- Entry point: [.claude/skills/impeccable/SKILL.md](.claude/skills/impeccable/SKILL.md) (`C:\_Work\my-software-factory\.claude\skills\impeccable\SKILL.md`). Procedures: `.claude\skills\impeccable\reference\` (one file per command, e.g. `shape.md`, `critique.md`, `audit.md`, `polish.md`; `craft-floor.md` before any UI edit). Launcher: `.claude\skills\impeccable\scripts\impeccable.cmd`.
+- Version / source: skill `4.5.2` (npm package `impeccable@4.5.2`, repository `github.com/pbakaus/impeccable`), engine `v0.1.14` (windows-x64). Installed with `npx impeccable install --providers=claude --scope=project --no-hooks`. The installer also added four helper agents under `.claude\agents\impeccable-*.md`.
+- Hooks: not installed (optional). To add the design hook later, rerun the install without `--no-hooks`; it writes `.claude\settings.local.json`, which runs a command on tool use, so decide that deliberately.
+- Loading route for workers (the verified route): the worker template makes every interface worker or reviewer read the entry point and the relevant procedure by absolute path. Native discovery (`/impeccable`, the Skill tool) needs the session to see `.claude\skills`; that folder did not exist when session `my-software-factory-c8` started, but the session picked the skill up by itself later on 2026-10-13 (`impeccable` appeared in the controller's skill list). Whether a worker's skill list includes it has not been rechecked; if it is missing in some session, type `/reload-skills` there. Do not replace the skill with a summary.
+- Tooling: Node.js `24.20.0` LTS and npm `11.19.0`, installed machine-wide with winget at `C:\Program Files\nodejs` (not on the PATH of shells that were already open; use the full path or a new shell). Node is needed for `npx impeccable update` / `check` and for web work; the skill's launcher itself needs no Node.
+- Update: `npx impeccable check`, then `npx impeccable update` from the project root, as controller maintenance. Record the new version here.
+- Not done by this upgrade: no web app, no reminder migration, no `PRODUCT.md` / `DESIGN.md` (created by the first interface task from its agreed brief).
