@@ -51,6 +51,7 @@ Intake appends at the end of the unchecked entries only while TODO intake is ope
 - Only assigned workers execute briefs.
 - Factory configuration → direct controller maintenance between assignments: pause pickup, finish active work, apply the change, release maintenance ownership (restore pickup).
 - Ordinary application use → follow that application's operating guide.
+- Reminders: building or changing the reminder service → the active development queue above, like any development request. Ordinary reminder use (add / list / modify / remove) → follow [reminders-guide.md](reminders-guide.md) directly; never queue it. See "Reminder service".
 
 ## Dispatch (one run at a time)
 
@@ -79,3 +80,18 @@ The controller reports in the feedback destination: queued, picked up, worker st
 ## Workers
 
 Read this file and your full assignment from the supplied absolute path; do not rely on conversation history. Do not edit TODO.md, State, claims or the dispatcher job. When updating project guidance, preserve them. A task that adds a service records its operating controls in a new section of this file. Keep secrets out of this file.
+
+## Reminder service
+
+Chat reminders stored as text (added by T-001). It does not schedule or send anything automatically.
+
+- Agreed behaviour: [reminders-brief.md](reminders-brief.md)
+- Operating instructions: [reminders-guide.md](reminders-guide.md)
+- Canonical store: `C:\_Work\my-software-factory\REMINDERS.md`, read and written only through `C:\_Work\my-software-factory\reminders.sh` (shared write lock `.reminders.lock`).
+- Fresh service conversation: give it the absolute project path `C:\_Work\my-software-factory` and this starting request:
+
+  > Read FACTORY.md and reminders-guide.md in this project, then list my reminders.
+
+- Routing: building or changing the service (files above, format, new features) goes through the active development queue. Ordinary reminder use follows reminders-guide.md directly, in any conversation, without a queue entry or a worker; it does not touch TODO.md, State or the dispatcher job, and the dispatcher takes no part in it.
+- Controls (say these in any project conversation that has loaded the guide): "Add a reminder: <text>" · "List my reminders" · "Change R-0003 to <text>" · "Remove R-0003". An ID or ordinary wording both work; the service asks when the target is ambiguous.
+- Stuck write (a "write lock is still held" error that does not clear): `bash "C:/_Work/my-software-factory/reminders.sh" recover` — see "Recovery" in the guide.

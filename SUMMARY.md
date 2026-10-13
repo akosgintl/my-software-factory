@@ -1,103 +1,125 @@
-# Session summary — software factory bootstrap
+# Session summary — part 2: chat reminder service
 
 Date: 2026-10-13. Project: `C:\_Work\my-software-factory`. Session: `my-software-factory-c8` (Claude Code in VS Code).
 
+This covers everything from the "Queue one task titled Create a Chat Reminder Service" request to the request for this summary. Part 1 (factory bootstrap) is the previous version of this file, in commit `4dd5155`.
+
 ## Outcome
 
-A simple software factory is set up and enabled. One dispatcher runs every minute in this session, takes the first unchecked task from `TODO.md`, hands it to a fresh worker, verifies the result, checks the entry off and moves it to the bottom. A disposable trial task ran end to end on a scheduled tick and was then removed. The queue is empty.
+The factory took its first real task through the full route: queued in chat, picked up by a scheduled tick, built by a fresh worker, inspected by the controller, checked off. The result is a chat reminder service backed by `REMINDERS.md`. It stores text only and does not send or schedule reminders.
+
+## State at the start
+
+- Factory enabled: dispatcher job `35e2fcfd`, every minute, pickup enabled, no active assignment, queue empty.
+- Part 1 files (`FACTORY.md`, `TODO.md`, `SUMMARY.md`) had been committed by the user as `4dd5155 part-01 -> 01-factory-todo`.
+- Between the part 1 summary and the intake request, four dispatcher ticks fired and found nothing to do.
 
 ## What was asked
 
-A bootstrap request to set up a factory with the harness's own automation features:
-
-- create `TODO.md` and `FACTORY.md`;
-- leave one dispatcher enabled on a 60-second cadence, with only one run and one assignment active at a time;
-- report progress in chat;
-- verify once with a disposable task, then clean up.
-
-It also ruled out custom schedulers, shell loops, OS-level schedules and hand-edited automation files.
-
-A later request asked for this summary.
+1. **Intake request.** Queue one task, "Create a Chat Reminder Service", with the supplied brief. Intake only: save the brief, return its reference, stop. Do not implement, dispatch or change automations.
+2. **This summary.**
 
 ## What was done, in order
 
-1. **Inspected the project.** It held only `README.md` and one commit ("Initial commit") on `main`. No scheduled jobs existed, and no factory files, so this was a first run, not a retry.
-2. **Chose the mechanism.** The session scheduler (CronCreate / CronList / CronDelete) for the dispatcher, the Agent tool for workers, and this chat for feedback.
-3. **Wrote `TODO.md`** — an empty checklist with the entry format (title, indented brief, checks).
-4. **Wrote `FACTORY.md`** with pickup recorded as paused. It holds the project path, queue, state, automation prompt, non-overlap controls, lifetime, user controls, queue-write protocol, routing, dispatch steps, recovery, pause/maintenance/trial rules, feedback rules and worker rules.
-5. **Created the dispatcher job** `35e2fcfd`, cron `* * * * *`, with this prompt:
-   `Factory dispatcher tick. Read FACTORY.md in C:\_Work\my-software-factory and use it to operate this factory: follow "Dispatch" exactly, report to me in this chat per "Feedback", and stay silent on an idle or skipped tick.`
-6. **Read the job back** with CronList: one job, every minute, recurring, session-only.
-7. **Queued the trial task** `T-TRIAL-7f3a9c` under the queue lock: write `factory-trial-7f3a9c.txt` with the single line `factory trial 7f3a9c ok` and return its path.
-8. **Enabled pickup** in `FACTORY.md` and recorded the job id, creation date and expiry.
-9. **Ended the turn** so the scheduler could fire (it only fires while the session is idle).
-10. **First scheduled tick fired by itself.** The controller reread the state and queue, claimed the trial, wrote the active-assignment pointer and reported "picked up".
-11. **Launched a fresh foreground worker** (agent id `aa12a053f82c52e22`) with the project path, the instruction to read `FACTORY.md`, the full brief and checks, and the "already assigned" role line. It finished in about 7 seconds and reported the file path.
-12. **Verified the result independently.** The file had one line, `factory trial 7f3a9c ok`, 24 bytes with a trailing newline. `git status` showed nothing else changed.
-13. **Completed the entry.** Marked it `- [x]` under the lock (it was the only entry, so already last), cleared the pointer and reported "verified complete".
-14. **Cleaned up the trial.** Removed its four-line entry from `TODO.md` and deleted `factory-trial-7f3a9c.txt`.
-15. **Confirmed one dispatcher remains** with CronList, and delivered the final report in chat.
-16. **Three more ticks fired.** Each found pickup enabled, no assignment and an empty queue. The first posted a one-line idle note; the next two posted only a "." (see Known issues).
-17. **Wrote this file.**
+### Intake
+
+1. Reread `FACTORY.md` and `TODO.md`: TODO intake open, no GitHub route, no active claim, queue empty, no reminder files, so no equivalent work existed.
+2. Saved the brief to a scratch file, without the tags and intake instructions, with one added first line: `Project path: C:\_Work\my-software-factory`.
+3. Under the queue lock (`.todo.lock`): rechecked that intake was open and that no entry had the same title, then appended one unchecked entry, `T-001: Create a Chat Reminder Service`, with the brief indented beneath it (`TODO.md` lines 13–56).
+4. Read the saved entry back and diffed it against the brief: identical.
+5. Reported "queued" with the reference `TODO.md:13` and stopped. Pickup state and the dispatcher job were not touched.
+
+### Dispatch
+
+6. The next scheduled tick fired by itself. Under the lock the controller confirmed pickup was enabled and nothing was claimed, took the first unchecked entry (T-001) and wrote the active-assignment pointer into `FACTORY.md`. Reported "picked up" and "worker starting".
+7. Launched one fresh foreground worker (agent id `acf19b53d3942aee4`) with the project path, the instruction to read `FACTORY.md`, the full brief, the "already assigned" role line, and the limits: no edits to `TODO.md`, the State section or the scheduled job; no git commits.
+8. The worker ran for about 4 minutes 40 seconds (16 tool calls). No tick fired during that time.
+
+### What the worker built
+
+- `REMINDERS.md` — the canonical store. One line per reminder: `- R-NNNN: <text>`. A `Next ID` counter only goes up, so removed IDs are never reused.
+- `reminders-guide.md` — operating instructions: reread the guide and the records before every request, how to identify a target, when to ask, the write protocol, recovery, examples.
+- `reminders-brief.md` — the agreed behaviour.
+- `reminders.sh` — a Git Bash script, the only reader and writer. Commands: `list`, `add`, `modify`, `remove`, `recover`.
+- `FACTORY.md` — one new bullet under "Routing" and a new "Reminder service" section: links, store path, starting request, routing distinction, controls, recovery.
+
+Write protocol in the script: take the lock with `mkdir .reminders.lock` (waits up to 60 s, records the owner), reread the store, build a temp file changing only the target record, refuse if any other record would differ, rename it over the store, reread to confirm, release. The lock and temp file are removed on success, failure and interruption. `recover` clears a lock only when its recorded owner process is dead.
+
+### Worker's checks (as it reported them)
+
+1. **Add two — passed.** `R-0001` and `R-0002`, labelled `T001-CHECK-7f3a`; both confirmed in the raw file.
+2. **List and modify by ID — passed.** `R-0001` got new text, kept its ID; `R-0002` unchanged.
+3. **Fresh conversation — passed.** A subagent with no inherited history (id `a311fb77b7d4bec34`) was given only the project path, the starting request and one plain-language change. It listed both records and modified only `R-0002`; the change was in the file afterwards.
+4. **Concurrent writes — passed,** on an isolated scratch copy.
+   - 15 simultaneous writers (12 adds, 2 modifies, 1 remove): all took effect, no errors.
+   - Control with the lock disabled: 1 of 12 adds survived and both modifies were lost.
+   - Interrupted writer: a dead-owner lock blocked a write without changing the store, and `recover` cleared it; a live-owner lock was refused.
+5. **Remove — passed.** Both test records removed; the store is empty and `Next ID` stays `R-0003`.
+
+### Controller inspection
+
+9. Checked the working tree: the four new files exist, `FACTORY.md` and `TODO.md` are modified, nothing else changed.
+10. Checked `FACTORY.md`: State section intact, new routing bullet and "Reminder service" section present with both links.
+11. Checked `REMINDERS.md`: empty, `Next ID: R-0003`, no leftover lock, temp files or test records.
+12. Read `reminders-guide.md` in full.
+13. Ran the script on a scratch copy: add, add, modify, remove, add, list. Texts and IDs were correct and the removed ID was not reused (`R-0003`, `R-0005` remained). The real store was not touched; the scratch copy was deleted.
+14. CronList: still exactly one job, `35e2fcfd`. No `CLAUDE.md` was created.
+
+### Completion
+
+15. Under the lock, marked T-001 `- [x]`. It was the only entry, so it was already at the bottom.
+16. Cleared the active-assignment pointer.
+17. Reported "verified complete" with the handover, and the transition to an empty queue with the dispatcher still enabled.
+18. Two further ticks fired and found nothing to do.
+19. Wrote this file, replacing the part 1 summary.
 
 ## Files
 
 | File | State |
 |---|---|
-| `FACTORY.md` | Created. Untracked. |
-| `TODO.md` | Created, queue empty. Untracked. |
-| `SUMMARY.md` | Created (this file). Untracked. |
-| `README.md` | Untouched. |
-| `factory-trial-7f3a9c.txt` | Created by the worker, then deleted. |
-| `.todo.lock/` | Created and removed around each queue write; not present now. |
-| `.claude/scheduled_tasks.lock` | Created by the harness, left alone. |
+| `REMINDERS.md` | New, untracked. Empty store, next ID `R-0003`. |
+| `reminders-guide.md` | New, untracked. |
+| `reminders-brief.md` | New, untracked. |
+| `reminders.sh` | New, untracked. |
+| `FACTORY.md` | Modified: routing bullet and "Reminder service" section added. |
+| `TODO.md` | Modified: T-001 added, now checked. |
+| `SUMMARY.md` | Modified: this file replaces the part 1 text. |
 
-Nothing was committed to git.
+Nothing was committed in this part.
 
 ## Current state
 
-- Pickup: enabled.
-- Dispatcher job: `35e2fcfd`, every minute, created 2026-10-13, expires 2026-10-20.
+- Pickup: enabled. Dispatcher job `35e2fcfd`, every minute, expires 2026-10-20.
 - Active assignment: none.
-- Queue: empty. TODO intake: open. No GitHub intake.
+- Queue: no unchecked entries; T-001 checked.
+- Reminders: none saved.
 
-## Checks
+## How to use the reminder service
 
-**Observed**
+In a fresh conversation on this project, start with:
 
-- Saved job read back: every minute, one job, loads `FACTORY.md` by absolute path, reports to this chat.
-- Automatic pickup on a scheduled tick (not a manual run).
-- Fresh worker executed the brief and returned the path.
-- Controller verified the file, checked off the entry and cleared the pointer.
-- Pickup and completion messages appeared in chat.
-- One dispatcher still enabled after cleanup; idle ticks launch nothing.
+> Read FACTORY.md and reminders-guide.md in this project, then list my reminders.
 
-**Not verified**
+- Add: "Add a reminder: renew the car insurance"
+- List: "List my reminders"
+- Modify: "Change R-0003 to renew the car insurance before March"
+- Remove: "Remove R-0003"
 
-- Overlap: no tick came due during the 7-second worker run. That a tick cannot start mid-run rests on the scheduler's documented behaviour.
-- Moving a completed entry past other entries: the trial was the only one.
-- Seven-day expiry, sleep, restart and recovery after interruption.
-- Two writers contending for the queue lock.
+An ID or ordinary wording both work. The service asks when the target is ambiguous. Asked for a timed reminder, it explains that it stores text only.
 
-## Limits of this setup
+Changing the service itself is a development request and goes through the queue.
 
-- **Session-only.** The job is not saved to disk. It stops when this VS Code session closes or the machine sleeps or restarts. Missed ticks are not replayed.
-- **Expires 2026-10-20.** There is no native renewal setting.
-- **No native paused state.** Pausing is a pickup flag in `FACTORY.md`; the job itself keeps ticking.
-- **No mid-run updates.** Workers run in the foreground to keep the run exclusive, so chat gets a message at start and at return, not in between.
-- **Every tick costs a model turn,** including idle ones.
+## Limits of the evidence
 
-## Known issues
+- The fresh-conversation check used a subagent, not a new top-level VS Code chat. The controller did not repeat it.
+- The worker ran checks 1, 2 and 5 itself, acting as the service conversation.
+- That the fresh agent read the canonical files rests on its own report plus the saved change; its tool trace was not inspected.
+- The controller's own script test ran on a scratch copy, not the real store.
+- Still unverified from part 1: a tick coming due during a run (none did), and moving a completed entry past other entries (T-001 was alone).
 
-- Idle ticks are not fully silent. The harness requires each turn to end with some text, so the last two idle ticks posted a "." in chat. The first idle tick posted a one-line "queue empty" note, which duplicated what the final report had already said.
+## Things to know
 
-## Controls
-
-Say these in the controlling chat:
-
-- Add work: "Queue this task: <brief + checks>"
-- Status: "Factory status"
-- Pause: "Pause factory pickup"
-- Resume: "Resume factory pickup"
-- Stop: "Stop the factory"
-- Restart or renew (new session, after expiry or a restart): "Read FACTORY.md in C:\_Work\my-software-factory and use it to operate this factory."
+- The service needs Git Bash on the host.
+- The lock protects only writers that go through `reminders.sh`; a hand edit of `REMINDERS.md` bypasses it.
+- With roughly 40 or more simultaneous writers, some may time out on the 60-second lock wait. Nothing is lost; they retry.
+- Idle dispatcher ticks still post a "." in chat every minute.
