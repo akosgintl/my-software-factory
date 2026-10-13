@@ -11,12 +11,13 @@ Instruction entry point for this factory. Standing project rules: [CLAUDE.md](CL
 - Engine: Claude Code session scheduler (CronCreate / CronList / CronDelete) + Agent tool workers.
 - Project instruction file: `C:\_Work\my-software-factory\CLAUDE.md`. Claude Code loads `CLAUDE.md` from the project root at session start; a session already running when it changes does not reload it, so the dispatcher prompt and the worker template also name it for an explicit read.
 - Design skill: Impeccable, project scope — see "Impeccable design skill".
+- Review criteria: [REVIEW.md](REVIEW.md) (`C:\_Work\my-software-factory\REVIEW.md`) — see "Review gate".
 - Feedback destination: the chat of the Claude Code session that owns the dispatcher job (VS Code, session `my-software-factory-c8`).
 
 ## State
 
 - Pickup: **enabled**
-- Dispatcher job: `d89d2b53` (created 2026-10-13, expires 2026-10-20), owned by session `my-software-factory-c8`
+- Dispatcher job: `34560376` (created 2026-10-13, expires 2026-10-20), owned by session `my-software-factory-c8`
 - Active assignment: none
 
 `Active assignment` is a recovery pointer only (controller session, task id, worker handle, phase) — never a second queue.
@@ -24,7 +25,7 @@ Instruction entry point for this factory. Standing project rules: [CLAUDE.md](CL
 ## Native automation
 
 - One recurring session cron job, `* * * * *` (every 60 s), prompt:
-  `Factory dispatcher tick. Read CLAUDE.md and FACTORY.md in C:\_Work\my-software-factory and use them to operate this factory: follow FACTORY.md "Dispatch" exactly, with one active run only (launch nothing if an assignment or maintenance is recorded or pickup is paused), give each worker the project path, its complete brief and the guidance files in the worker template, report to me in this chat per "Feedback", and stay silent on an idle or skipped tick.`
+  `Factory dispatcher tick. Read CLAUDE.md and FACTORY.md in C:\_Work\my-software-factory and use them to operate this factory: follow FACTORY.md "Dispatch" exactly, with one active run only (launch nothing if an assignment or maintenance is recorded or pickup is paused), give each worker the project path, its complete brief and the guidance files in the worker template, keep the assignment through the "Review gate" (fresh reviewer against REVIEW.md, repair, new fresh reviewer, complete only on a CLEAN verdict for the current files), report to me in this chat per "Feedback", and stay silent on an idle or skipped tick.`
 - Changing the prompt: a session cron job cannot be edited in place. Between assignments, CronDelete the old job, CronCreate with the new prompt at the same cadence, confirm with CronList that exactly one dispatcher exists, and record the new id in State. Editing this file alone does not change the running job.
 - Run controls / non-overlap: the job lives in one session and fires only while that session is idle, so a tick cannot start while a dispatcher turn is running. Workers are launched in the foreground (`run_in_background: false`), keeping the dispatcher turn — the logical run — active until the worker's terminal result. The `Active assignment` pointer is the second guard: a tick that finds one never launches anything.
 - Lifetime: session-only (not on disk) and auto-expires 7 days after creation. It stops when the session/VS Code window closes, the host sleeps or restarts. Nothing fires while the machine is off; missed ticks are not replayed.
@@ -68,10 +69,38 @@ Intake appends at the end of the unchecked entries only while TODO intake is ope
    - the complete brief and checks from the TODO.md entry (and where it is in TODO.md);
    - the role line: "You are already assigned this task. Execute it directly; do not enqueue or dispatch it again.";
    - "Return your result to the controller. Do not edit TODO.md, the State section of FACTORY.md or any scheduled job, and do not commit."
-4. On the worker's terminal result, run the checks yourself. A launch receipt, partial output or a self-written DONE file is not completion.
-5. Failed, interrupted or blocked: leave the entry unchecked and the pointer in place, inspect existing effects, report the blocker. Never duplicate, skip or mark unfinished work complete.
-6. Verified success: under the write protocol, reread TODO.md, change that entry to `- [x]` and move it with its whole indented brief to the end of the file; clear the pointer. Report "verified complete". If pickup is still enabled, go to 2.
+4. On the worker's terminal result, inspect the candidate and run the checks yourself. A launch receipt, partial output or a self-written DONE file is not completion. Report "implementation handed over". Then run the "Review gate" below; the claim and this run stay yours throughout.
+5. Failed, interrupted or blocked (worker, reviewer or repair): leave the entry unchecked and the pointer in place, keep the candidate, inspect existing effects, report the blocker and wait for its resolution; do not retry it rapidly. Never duplicate, skip or mark unfinished work complete.
+6. Only after a `CLEAN` review of the current files: under the write protocol, reread TODO.md, change that entry to `- [x]` and move it with its whole indented brief to the end of the file; clear only the `Active assignment` pointer, keeping pickup, intake and job records. Report "verified complete" with the review verdict. If pickup is still enabled, go to 2.
 7. Nothing to do: end the turn, leaving the job enabled. Report the transition to an empty queue once; say nothing on later idle ticks.
+
+## Review gate
+
+Every assignment passes a fresh review against [REVIEW.md](REVIEW.md) before it is completed. Criteria are fixed for the assignment; changing REVIEW.md is separate maintenance.
+
+- Route: the Agent tool, foreground, a new agent each time, started with the project path `C:\_Work\my-software-factory`. Never switch roles inside the implementation conversation, and never resume an earlier reviewer (no SendMessage to a previous reviewer for a new verdict). If fresh delegation is unavailable or refused, that is a blocker (step 5); no scripted or headless launch replaces it.
+- Sequence, all inside the one dispatcher run:
+  1. Implementation worker returns → controller inspects, keeps the candidate, its checks and operating controls, and records the file state (git revision, `git status`, content hashes of changed files).
+  2. Fresh reviewer (reviewer template) → `CLEAN` or `NOT CLEAN` with findings.
+  3. `NOT CLEAN` → report "findings require repair"; launch a fresh repair worker (repair template) with the findings. It reproduces and fixes them and reruns the affected checks. Record the new file state.
+  4. After any change to the files, launch a new fresh reviewer against the changed result. Repeat 3–4 until a review is `CLEAN`. No cap on rounds; do not hide findings, weaken criteria or reuse a verdict after files change.
+  5. `CLEAN` on the current file state → Dispatch step 6.
+- Not clean, ever: a failed, timed-out or empty review; an unavailable app, tool, permission or input; a required check that was not performed. Leave the task unchecked and claimed and report the blocker.
+- Workers and reviewers never own scheduling, session controls or task completion. Reminder delivery is independent: the checker keeps its own job, and catches up after a long run.
+- Review record: `reviews\<task id>.md`, written by the controller — one block per round with the worker/reviewer handle, reviewed file state, verdict and findings. Findings stay there, not in the standing instructions.
+- Feedback (in the feedback destination): implementation handed over; each verdict; findings that require repair; blockers; completion with the final verdict.
+
+Reviewer template — pass exactly these:
+- the absolute project path `C:\_Work\my-software-factory`;
+- "You are a fresh reviewer. Read `C:\_Work\my-software-factory\REVIEW.md`, `C:\_Work\my-software-factory\CLAUDE.md` and `C:\_Work\my-software-factory\FACTORY.md` in full, then follow the REVIEW.md procedure exactly and answer in its report format.";
+- the complete brief and checks from the TODO.md entry, and where it is in TODO.md;
+- what changed (the file list and state recorded by the controller) and, when an interface exists, how to reach the running app;
+- "Report findings only. Do not repair, edit, create or delete project files, do not commit, and do not touch TODO.md, FACTORY.md State or any scheduled job. Earlier reviews of this assignment are not available to you and must not be assumed."
+
+Repair template — pass exactly these:
+- the worker template lines (project path, read CLAUDE.md and FACTORY.md, skill line for interface work, complete brief and checks);
+- the findings to repair, verbatim from the review;
+- "You are the repair worker for this already assigned task. Reproduce each finding, fix it, and rerun the affected checks. Change nothing outside the findings and the brief. Do not enqueue or dispatch anything, do not review your own work as final, and return what you changed to the controller."
 
 ## Recovery
 
